@@ -4,7 +4,7 @@ export const { StyleSheet } = require('react-native');
 export const styles = StyleSheet.create({
   container: 
   { flex: 1, 
-    padding: 20, backgroundColor: c.backgroundclr, 
+    padding: 20, backgroundColor: c.background, 
     justifyContent: "center"
   },
   field: 
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 },
   input: { 
     borderWidth: 1, 
-    borderColor: '#ccc', 
+    borderColor: c.gray, 
     borderRadius: 8, 
     padding: 10, 
     fontSize: 16 
@@ -42,8 +42,8 @@ export const styles = StyleSheet.create({
     padding: 10, 
     borderWidth: 1, 
     borderColor: c.softGray, 
-    borderRadius: 80, 
-    minWidth: 50, 
+    borderRadius: 180, 
+    minWidth: 120, 
     alignItems: 'center',
   },
   unitButtonSelected: { 

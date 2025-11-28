@@ -1,5 +1,4 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -40,7 +39,10 @@ export default function GrupoCriarScreen() {
   const [corGrupo, setCorGrupo] = useState("");
   const [tipoGrupo, setTipoGrupo] = useState("");
   const [exemploHolder, setExemploHolder] = useState("");
+  const [mostrarGaveteiro, setMostrarGaveteiro] = useState(false);
 
+  // Descobre o objeto da cor selecionada (para mostrar o nome)
+  const corSelecionada = opcaoCores.find(c => c.id === corGrupo);
 
 
   // --- EFEITOS ---
@@ -128,7 +130,6 @@ export default function GrupoCriarScreen() {
             return (
               <TouchableOpacity
                 key={u.id}
-                label={u.nome}
                 activeOpacity={0.85}
                 onPress={() => {
                   setTipoGrupo(u.id);
@@ -156,22 +157,41 @@ export default function GrupoCriarScreen() {
       {/* Escolha de cores */}
       <View style={styles.field}>
         <Text style={styles.label}>Grupo do Ingrediente:</Text>
-        <View style={styles.pickerWrapper}>
-            <Picker
-              selectedValue={opcaoCores}
-              onValueChange={(itemValue) => setCorGrupo(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Escolha uma cor" value={null} />
-              {opcaoCores.map((cor) => (
-                <Picker.Item 
-                  key={cor.id} 
-                  label={cor.nome}
-                  value={cor.id} // aqui guardamos o ID
-                />
-              ))}
-            </Picker>
-        </View>
+
+{/* Falso Picker */}
+<TouchableOpacity
+  style={styles.fakePicker}
+  activeOpacity={0.8}
+  onPress={() => setMostrarGaveteiro(!mostrarGaveteiro)}
+>
+  <Text style={styles.fakePickerText}>
+    {corSelecionada ? corSelecionada.nome : "Escolha uma cor"}
+  </Text>
+
+  {/* Quadradinho da cor selecionada */}
+  {corSelecionada && (
+    <colorBox size={20} color={"#" + corSelecionada.cod} />
+  )}
+</TouchableOpacity>
+
+{/* Gaveteiro (Dropdown) */}
+{mostrarGaveteiro && (
+  <View style={styles.gaveteiro}>
+    {opcaoCores.map((cor) => (
+      <TouchableOpacity
+        key={cor.id}
+        style={styles.itemGaveteiro}
+        onPress={() => {
+          setCorGrupo(cor.id);
+          setMostrarGaveteiro(false);
+        }}
+      >
+        <colorBox size={30} color={"#" + cor.cod} />
+        <Text style={{ marginLeft: 8 }}>{cor.nome}</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+)}
       </View>
 
       {/* Botões */}
