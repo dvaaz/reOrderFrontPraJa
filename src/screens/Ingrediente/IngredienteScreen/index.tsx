@@ -3,9 +3,9 @@ import { COLOR } from "@/constants/constantsStyles";
 import { ImagemFundo } from "@/utils/ImagemFundo";
 import { useRouter } from "expo-router";
 import {
-    FlatList,
-    StyleSheet,
-    View
+  FlatList,
+  StyleSheet,
+  View
 } from "react-native";
 
 type CategoryProps = {

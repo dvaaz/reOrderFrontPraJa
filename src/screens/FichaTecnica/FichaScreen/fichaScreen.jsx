@@ -9,14 +9,6 @@ import { COLOR } from "@/constants/constantsStyles";
 import { ImagemFundo } from "@/utils/ImagemFundo";
 import { useRouter } from "expo-router";
 
-// Props
-type CategoryProps = {
-  id: string;
-  name: string;
-  corDeFundo: string;
-  corDeTexto: string;
-};
-
 
 const opcoes = [
   {
@@ -39,7 +31,7 @@ export default function Ficha() {
 
   const router = useRouter();
 
-  const handleCategoryPress = (categoria: CategoryProps) => {
+  const handleCategoryPress = (categoria) => {
     console.log(`Categoria selecionada: ${categoria.name}`);
     // rota estática por id
     switch (categoria.id) {
