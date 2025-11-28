@@ -1,4 +1,3 @@
-import { COLOR, FONT_SIZE } from '@/constants/constantsStyles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
@@ -14,7 +13,7 @@ import {
 import { styles } from "./styles";
 
 // --- CONFIGURAÇÃO DA API ---
-const API_URL = "http://localhost:8408"; 
+const API_URL = "http://academico3.rj.senac.br/praja";
 
 export default function IngredienteCriarScreen() {
   const router = useRouter();
@@ -144,11 +143,6 @@ export default function IngredienteCriarScreen() {
         <TextInput
           value={descricaoIngrediente}
           onChangeText={setDescricaoIngrediente}
-          placeholderStyle={{
-            fontWeight: "100",
-            fontSize: FONT_SIZE.sml,
-            color: COLOR.gray,
-          }}
           placeholder={"Informações detalhadas sobre o ingrediente, se necessário."}
           style={[styles.input, styles.multiline]}
           multiline
@@ -165,7 +159,7 @@ export default function IngredienteCriarScreen() {
             return (
               <TouchableOpacity
                 key={u.id}
-                activeOpacity={0.85}
+                activeOpacity={0.50}
                 onPress={() => {
                   setUnidadeMedida(u.id);
                   console.log("Unidade selecionada:", u.id);

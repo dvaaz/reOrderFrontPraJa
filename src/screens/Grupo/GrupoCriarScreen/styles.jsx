@@ -1,11 +1,11 @@
+import { COLOR as c } from '@/constants/constantsStyles';
 export const { StyleSheet } = require('react-native');
-import { COLOR } from '@/constants/constantsStyles';
 
 export const styles = StyleSheet.create({
   container: 
   { flex: 1, 
-    padding: 20, backgroundColor: '#fff' 
-
+    padding: 20, backgroundColor: c.backgroundclr, 
+    justifyContent: "center"
   },
   field: 
   { marginBottom: 20 
@@ -41,25 +41,25 @@ export const styles = StyleSheet.create({
   unitButton: { 
     padding: 10, 
     borderWidth: 1, 
-    borderColor: '#ccc', 
+    borderColor: c.softGray, 
     borderRadius: 80, 
     minWidth: 50, 
     alignItems: 'center',
   },
   unitButtonSelected: { 
-    backgroundColor: '#007bff', 
-    borderColor: '#007bff' 
+    backgroundColor: c.info, 
+    borderColor: c.blue,
   },
   unitText: { 
-    color: '#333' 
+    color: c.preto, 
   },
   unitTextSelected: { 
-    color: '#fff', 
+    color: c.branco, 
     fontWeight: 'bold' 
   },
   pickerWrapper: { 
     borderWidth: 1, 
-    borderColor: '#ccc', 
+    borderColor: c.gray, 
     borderRadius: 8, 
     overflow: 'hidden', 
     justifyContent: 'center' 
@@ -68,14 +68,9 @@ export const styles = StyleSheet.create({
     height: 55, 
     width: '100%' 
   },
-  loadingContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    padding: 15 
-  },
   helperText: { 
     fontSize: 12, 
-    color: COLOR.info, 
+    color: c.info, 
     marginTop: 5 
   },
   clearButton: { 
@@ -101,7 +96,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold' 
   },
   okButton: { 
-    backgroundColor: '#28a745' 
+    backgroundColor: c.verde, 
   },
   okText: { 
     color: '#fff', 

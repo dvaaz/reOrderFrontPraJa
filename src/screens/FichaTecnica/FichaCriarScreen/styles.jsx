@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 10,
         backgroundColor: COLOR.softtGray,
+        fontWeight: 200,
     },
     multiline: {
         height: 80,

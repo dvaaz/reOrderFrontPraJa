@@ -3,17 +3,16 @@ import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import { styles } from "./styles";
 
 // --- CONFIGURAÇÃO DA API ---
-const API_URL = "http://localhost:8408"; 
+const API_URL = "http://academico3.rj.senac.br/praja";
 
 export default function GrupoCriarScreen() {
   const router = useRouter();
@@ -25,14 +24,15 @@ export default function GrupoCriarScreen() {
   ];
 // Serão adicionados o # antes das opções de cores no picker
   const opcaoCores = [
-    { id: "vermelho", nome: "Vermelho", cod: "#FF0000" },
-    { id: "verde", nome: "Verde", cod: "#00FF00" },
-    { id: "azul", nome: "Azul", cod: "#0000FF" },
-    { id: "amarelo", nome: "Amarelo", cod: "#FFFF00" },
+    { id: "vermelho", nome: "Vermelho", cod: "FF0000" },
+    { id: "verde", nome: "Verde", cod: "00FF00" },
+    { id: "azul", nome: "Azul", cod: "0000FF" },
+    { id: "amarelo", nome: "Amarelo", cod: "FFFF00" },
     { id: "laranja", nome: "Laranja", cod: "FFA500" },
     { id: "roxo", nome: "Roxo", cod: "f509f5de" },
   ]
-
+  
+  // --- EFEITO PARA EXEMPLO DINÂMICO ---
   const exemplos = ["Farinhas", "Temperos", "Legumes", "Carnes", "Aves", "Ovos", "Outros"];
 
   // --- STATES ---
@@ -41,13 +41,9 @@ export default function GrupoCriarScreen() {
   const [tipoGrupo, setTipoGrupo] = useState("");
   const [exemploHolder, setExemploHolder] = useState("");
 
-  // --- EFEITO PARA EXEMPLO DINÂMICO ---
 
 
   // --- EFEITOS ---
-  useEffect(() => {
-    fetchGrupos();
-  }, []);
   useEffect(() => {
 
   // --- Função que escolhe um exemplo aleatório ---
@@ -74,8 +70,8 @@ export default function GrupoCriarScreen() {
 
   // --- FUNÇÃO DE SALVAR ---
   const handleSalvar = async () => {
-    if (!nomeGrupo || grupoIngrediente === null) {
-      Alert.alert("Campos obrigatórios", "Por favor, preencha o nome e escolha um grupo.");
+    if (!nomeGrupo || tipoGrupo === null) {
+      Alert.alert("Campos obrigatórios", "Por favor, preencha o nome o tipo.");
       return;
     }
 
@@ -86,7 +82,7 @@ export default function GrupoCriarScreen() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/api/ingrediente/criar`, {
+      const response = await fetch(`${API_URL}/api/grupos/criar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -107,7 +103,11 @@ export default function GrupoCriarScreen() {
   // --- RENDERIZAÇÃO ---
   return (
     <View style={styles.container}>
-      
+      <colorBox
+        size={30}
+        color={opcaoCores[0]}
+        
+      />
       {/* Campo Nome */}
       <View style={styles.field}>
         <Text style={styles.label}>Nome do Grupo:</Text>
@@ -128,10 +128,11 @@ export default function GrupoCriarScreen() {
             return (
               <TouchableOpacity
                 key={u.id}
+                label={u.nome}
                 activeOpacity={0.85}
                 onPress={() => {
-                  setUnidadeMedida(u.id);
-                  console.log("Unidade selecionada:", u.id);
+                  setTipoGrupo(u.id);
+                  console.log("Tipo selecionado:", u.nome);
                 }}
                 style={[
                   styles.unitButton,
@@ -152,35 +153,25 @@ export default function GrupoCriarScreen() {
         </View>
       </View>
 
-      {/* Campo Grupo */}
+      {/* Escolha de cores */}
       <View style={styles.field}>
         <Text style={styles.label}>Grupo do Ingrediente:</Text>
         <View style={styles.pickerWrapper}>
-          {loadingGrupos ? (
-            <View style={styles.loadingContainer}>
-               <ActivityIndicator size="small" color="#000" />
-               <Text style={{marginLeft: 10}}>Carregando grupos...</Text>
-            </View>
-          ) : (
             <Picker
-              selectedValue={grupoIngrediente}
-              onValueChange={(itemValue) => setGrupoIngrediente(itemValue)}
+              selectedValue={opcaoCores}
+              onValueChange={(itemValue) => setCorGrupo(itemValue)}
               style={styles.picker}
             >
-              <Picker.Item label="Selecione um grupo..." value={null} />
-              {grupos.map((grupo) => (
+              <Picker.Item label="Escolha uma cor" value={null} />
+              {opcaoCores.map((cor) => (
                 <Picker.Item 
-                  key={grupo.id} 
-                  label={grupo.nome}
-                  value={grupo.id} // aqui guardamos o ID
+                  key={cor.id} 
+                  label={cor.nome}
+                  value={cor.id} // aqui guardamos o ID
                 />
               ))}
             </Picker>
-          )}
         </View>
-        <Text style={styles.helperText}>
-          {grupos.length === 0 && !loadingGrupos ? "Nenhum grupo encontrado." : ""}
-        </Text>
       </View>
 
       {/* Botões */}
@@ -193,8 +184,8 @@ export default function GrupoCriarScreen() {
           style={[styles.actionButton, styles.cancelButton]}
           onPress={() => {
              setNomeGrupo("");
-             setDescricaoIngrediente("");
-             setGrupoIngrediente("");
+             setTipoGrupo("");
+             setCorGrupo("");
           }}
         >
           <Text style={styles.cancelText}>Limpar</Text>

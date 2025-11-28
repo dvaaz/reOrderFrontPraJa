@@ -16,7 +16,7 @@ import { styles } from "./styles";
 // --- CONFIGURAÇÃO DA API ---
 // SE ESTIVER NO EMULADOR ANDROID: Use "http://10.0.2.2:8408/api"
 // SE ESTIVER NO CELULAR FÍSICO/IPHONE: Use o IP do seu PC, ex: "http://192.168.1.15:8408/api"
-const API_URL = "http://10.0.2.2:8408/api";
+const API_URL = "http://academico3.rj.senac.br/praja";
 
 export default function FichaCriarScreen() {
   // Hooks de formulário
@@ -123,10 +123,11 @@ export default function FichaCriarScreen() {
         <View style={styles.field}>
           <Text style={styles.label}>Nome da Ficha Tecnica:</Text>
           <TextInput
+            style={styles.input}
             value={nomeFicha}
             onChangeText={setNomeFicha}
             placeholder="Digite o nome da Ficha Tecnica"
-            style={styles.input}
+
           />
         </View>
 

@@ -1,14 +1,15 @@
 
 
 export const COLOR = {
-    background: '#fef0e7ff',
+    background: '#fff7f3ff',
+    background2: '#ffd8cc',
     branco: '#FFF',
     softPeach: '#f9d4d4ff',
     preto: '#1b1a17dc',
     warn: '#ff974dff',
     danger: '#ff0404ff',
     info: '#4287f5ff',
-
+    verde: '#28a745',
     blue: '#2c60ffff',
     gray: '#4b4b49ff',
     softtGray: '#e8e8e8ff',
