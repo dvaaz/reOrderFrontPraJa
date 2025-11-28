@@ -1,4 +1,3 @@
-import { COLOR, FONT_SIZE } from '@/constants/constantsStyles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
@@ -20,11 +19,20 @@ export default function GrupoCriarScreen() {
   const router = useRouter();
 
   // Constantes locais
-  const unMedida = [
-    { id: "UN", nome: "Unidade", cod: 0 },
-    { id: "g", nome: "Gramas", cod: 1 },
-    { id: "ml", nome: "Mililitros", cod: 2 }
+  const consTipoGrupo = [
+    { id: "i", nome: "Ingredientes", cod: 1 },
+    { id: "f", nome: "Fichas Tecnicas", cod: 2 },
   ];
+// Serão adicionados o # antes das opções de cores no picker
+  const opcaoCores = [
+    { id: "vermelho", nome: "Vermelho", cod: "#FF0000" },
+    { id: "verde", nome: "Verde", cod: "#00FF00" },
+    { id: "azul", nome: "Azul", cod: "#0000FF" },
+    { id: "amarelo", nome: "Amarelo", cod: "#FFFF00" },
+    { id: "laranja", nome: "Laranja", cod: "FFA500" },
+    { id: "roxo", nome: "Roxo", cod: "f509f5de" },
+  ]
+
   const exemplos = ["Farinhas", "Temperos", "Legumes", "Carnes", "Aves", "Ovos", "Outros"];
 
   // --- STATES ---
@@ -73,9 +81,8 @@ export default function GrupoCriarScreen() {
 
     const payload = {
       nome: nomeGrupo,
-      descricao: descricaoIngrediente,
-      unidadeMedida: unMedida.find(u => u.id === unidadeMedida)?.cod || 0,
-      grupo: grupoIngrediente // aqui vai o ID selecionado
+      cor: corGrupo,
+      tipo: consTipoGrupo.find(u => u.id === tipoGrupo)?.cod || 0,
     };
 
     try {
@@ -103,7 +110,7 @@ export default function GrupoCriarScreen() {
       
       {/* Campo Nome */}
       <View style={styles.field}>
-        <Text style={styles.label}>Nome do Ingrediente:</Text>
+        <Text style={styles.label}>Nome do Grupo:</Text>
         <TextInput
           value={nomeGrupo}
           onChangeText={setNomeGrupo}
@@ -112,30 +119,12 @@ export default function GrupoCriarScreen() {
         />
       </View>
 
-      {/* Campo Descrição */}
-      <View style={styles.field}>
-        <Text style={styles.label}>Descrição:</Text>
-        <TextInput
-          value={descricaoIngrediente}
-          onChangeText={setDescricaoIngrediente}
-          placeholderStyle={{
-            fontWeight: "100",
-            fontSize: FONT_SIZE.sml,
-            color: COLOR.gray,
-          }}
-          placeholder={"Informações detalhadas sobre o ingrediente, se necessário."}
-          style={[styles.input, styles.multiline]}
-          multiline
-          numberOfLines={3}
-        />
-      </View>
-
-      {/* Campo Unidade de Medida */}
-      <Text style={styles.label}>UNIDADE DE MEDIDA:</Text>
+      {/* Campo Tipo de Grupo */}
+      <Text style={styles.label}>Tipo de Grupo:</Text>
       <View style={styles.fieldButton}>
         <View style={styles.unitsRow}>
-          {unMedida.map((u) => {
-            const selected = unidadeMedida === u.id;
+          {consTipoGrupo.map((u) => {
+            const selected = tipoGrupo === u.id;
             return (
               <TouchableOpacity
                 key={u.id}
@@ -161,12 +150,6 @@ export default function GrupoCriarScreen() {
             );
           })}
         </View>
-        <Text style={styles.helperText}>
-          Unidade selecionada:{" "}
-          <Text style={{ fontWeight: "600" }}>
-            {unMedida.find((x) => x.id === unidadeMedida)?.nome ?? ""}
-          </Text>
-        </Text>
       </View>
 
       {/* Campo Grupo */}
