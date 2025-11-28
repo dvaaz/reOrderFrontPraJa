@@ -3,13 +3,19 @@ import { COLOR, FONT_SIZE } from "@/constants/constantsStyles";
 import { Plus } from "@/utils/PlusIcon";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator, Alert, FlatList, Modal,
+  Pressable, ScrollView, Text, TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
+
 import { Tooltip } from "react-native-paper";
 import { styles } from "./styles";
 
- // --- CONFIGURAÇÃO DA API ---
- // SE ESTIVER NO EMULADOR ANDROID: Use "http://10.0.2.2:8408/api"
- // SE ESTIVER NO CELULAR FÍSICO/IPHONE: Use o IP do seu PC, ex: "http://192.168.1.15:8408/api"
+// --- CONFIGURAÇÃO DA API ---
+// SE ESTIVER NO EMULADOR ANDROID: Use "http://10.0.2.2:8408/api"
+// SE ESTIVER NO CELULAR FÍSICO/IPHONE: Use o IP do seu PC, ex: "http://192.168.1.15:8408/api"
 const API_URL = "http://10.0.2.2:8408/api";
 
 export default function FichaCriarScreen() {
@@ -61,7 +67,7 @@ export default function FichaCriarScreen() {
       setGruposFicha(Array.isArray(dataGruposFicha) ? dataGruposFicha.map(formatCor) : []);
       setIngredientes(Array.isArray(dataIngredientes) ? dataIngredientes : []);
       setGruposIngredientes(Array.isArray(dataGruposIngredientes) ? dataGruposIngredientes.map(formatCor) : []);
-      
+
     } catch (err) {
       console.error("Erro ao carregar dados:", err);
       Alert.alert("Erro", "Falha ao carregar dados. Verifique o backend e a conexão.");
@@ -132,7 +138,7 @@ export default function FichaCriarScreen() {
           <Pressable
             style={styles.label}
             onPress={() => setModalVisible(true)}
-            onPressOut={() => {}}
+            onPressOut={() => { }}
           >
             <Plus size={FONT_SIZE.md} color={COLOR.branco} bgColor={COLOR.blue} />
 
@@ -239,8 +245,9 @@ export default function FichaCriarScreen() {
         </View>
 
         <View style={styles.clearButton}>
-          <PrimaryButton
-            name="Cancelar"
+          <TouchableOpacity
+            style={[styles.actionButton, styles.cancelButton]}
+            name="Limpar"
             onPress={() => {
               setNomeFicha("");
               setDescricaoFicha(" ");
@@ -249,11 +256,13 @@ export default function FichaCriarScreen() {
               setIngredienteSelecionado([]);
             }}
             buttonColor={COLOR.danger}
-            textColor={COLOR.branco}
+            textColor={COLOR.preto}
           />
-          <PrimaryButton
+          <TouchableOpacity
             name="Confirmar"
             style={[styles.actionButton, styles.okButton]}
+            textColor={COLOR.branco}
+
             onPress={handleSalvar}
           />
         </View>
