@@ -3,17 +3,19 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "src/screens/FichaTecnica/FichaCriarScreen/index.jsx",
-    "src/screens/Ingrediente/IngredienteCriarScreen/index.jsx", "src/app/(tabs)/index.jsx", "src/app/(tabs)/ingrediente.jsx", "src/app/(tabs)/_layout.jsx",
+    "expo-env.d.ts",
+    "src/screens/FichaTecnica/FichaCriarScreen/index.jsx",
+    "src/screens/Ingrediente/IngredienteCriarScreen/index.jsx",
+    "src/app/(tabs)/index.jsx",
+    "src/app/(tabs)/ingrediente.jsx",
+    "src/app/(tabs)/_layout.jsx",
+    "src/app/_layout.jsx"
   ]
 }
