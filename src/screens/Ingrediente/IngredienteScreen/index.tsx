@@ -40,10 +40,10 @@ export default function Ingrediente() {
     // rota estática por id
     switch (categoria.id) {
       case "create":
-        router.navigate("../../screens/ingrediente/ingredienteCriarScreen");
+        router.navigate("../screens/ingrediente/ingredienteCriarScreen");
         break;
       case "search":
-        router.navigate("../../screens/ingrediente/ingredienteBuscarScreen");
+        router.navigate("../screens/ingrediente/ingredienteBuscarScreen");
         break;
       default:
         console.warn("Rota não configurada para", categoria.id);

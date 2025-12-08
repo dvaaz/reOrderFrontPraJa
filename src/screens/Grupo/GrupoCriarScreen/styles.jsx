@@ -101,5 +101,26 @@ export const styles = StyleSheet.create({
   okText: { 
     color: '#fff', 
     fontWeight: 'bold' 
-  }
+  },
+  colorGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  marginTop: 10,
+},
+
+colorBox: {
+  width: 60,
+  height: 60,
+  margin: 5,
+  borderRadius: 8,
+  borderWidth: 2,
+  borderColor: "#ccc",
+},
+
+colorBoxSelected: {
+  borderColor: "#000", // destaque quando selecionado
+  borderWidth: 3,
+},
+
 });

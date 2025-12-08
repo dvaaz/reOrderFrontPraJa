@@ -27,10 +27,14 @@ export default function GrupoCriarScreen() {
     { id: "verde", nome: "Verde", cod: "00FF00" },
     { id: "azul", nome: "Azul", cod: "0000FF" },
     { id: "amarelo", nome: "Amarelo", cod: "FFFF00" },
-    { id: "laranja", nome: "Laranja", cod: "FFA500" },
+    { id: "ciano", nome: "Ciano", cod: "00FFFF" },
     { id: "roxo", nome: "Roxo", cod: "f509f5de" },
-  ]
-  
+    { id: "magenta", nome: "Magenta", cod: "FF00FF" },
+    { id: "rosa", nome: "Rosa", cod: "FFC0CB" },
+    { id: "laranja", nome: "Laranja", cod: "FFA500" },
+
+  ];
+
   // --- EFEITO PARA EXEMPLO DINÂMICO ---
   const exemplos = ["Farinhas", "Temperos", "Legumes", "Carnes", "Aves", "Ovos", "Outros"];
 
@@ -88,7 +92,7 @@ export default function GrupoCriarScreen() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      });
+      }); 
 
       if (response.ok) {
         Alert.alert("Sucesso", "Ingrediente criado!", [{ text: "OK", onPress: () => router.back() }]);
@@ -152,46 +156,43 @@ export default function GrupoCriarScreen() {
             );
           })}
         </View>
+        <Text style={styles.helperText}>
+          Tipo selecionado:{" "}
+          <Text style={{ fontWeight: "600" }}>
+            {consTipoGrupo.find((x) => x.id === tipoGrupo)?.nome ?? ""}
+          </Text>
+        </Text>
       </View>
 
       {/* Escolha de cores */}
       <View style={styles.field}>
-        <Text style={styles.label}>Grupo do Ingrediente:</Text>
+        <Text style={styles.label}>Cor do Grupo:</Text>
 
-{/* Falso Picker */}
-<TouchableOpacity
-  style={styles.fakePicker}
-  activeOpacity={0.8}
-  onPress={() => setMostrarGaveteiro(!mostrarGaveteiro)}
->
-  <Text style={styles.fakePickerText}>
-    {corSelecionada ? corSelecionada.nome : "Escolha uma cor"}
-  </Text>
-
-  {/* Quadradinho da cor selecionada */}
-  {corSelecionada && (
-    <colorBox size={20} color={"#" + corSelecionada.cod} />
-  )}
-</TouchableOpacity>
-
-{/* Gaveteiro (Dropdown) */}
-{mostrarGaveteiro && (
-  <View style={styles.gaveteiro}>
-    {opcaoCores.map((cor) => (
-      <TouchableOpacity
-        key={cor.id}
-        style={styles.itemGaveteiro}
-        onPress={() => {
-          setCorGrupo(cor.id);
-          setMostrarGaveteiro(false);
-        }}
-      >
-        <colorBox size={30} color={"#" + cor.cod} />
-        <Text style={{ marginLeft: 8 }}>{cor.nome}</Text>
-      </TouchableOpacity>
-    ))}
+{/* Grid 3x3 de cores */}
+  <View style={styles.colorGrid}>
+    {opcaoCores.map((cor) => {
+      const selected = corGrupo === cor.id;
+      return (
+        <TouchableOpacity
+          key={cor.id}
+          style={[
+            styles.colorBox,
+            { backgroundColor: "#" + cor.cod },
+            selected && styles.colorBoxSelected
+          ]}
+          onPress={() => setCorGrupo(cor.cod)}
+        />
+      );
+    })}
   </View>
-)}
+
+  {/* Mostrar nome da cor selecionada */}
+  {corSelecionada && (
+    <Text style={styles.helperText}>
+      Cor selecionada: <Text style={{ fontWeight: "600" }}>{corSelecionada.nome}</Text>
+    </Text>
+  )}
+
       </View>
 
       {/* Botões */}
