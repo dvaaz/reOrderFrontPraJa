@@ -1,7 +1,6 @@
 import { Text, View } from 'react-native';
 
 
-
 export default function FichaIncluirIngredienteScreen() {
 // constantes de estado obtidas pela API
   const [gruposIngredientes, setGruposIngredientes] = useState([]);
@@ -16,6 +15,8 @@ export default function FichaIncluirIngredienteScreen() {
 
 // controle de modal
   const [modalIngredienteVisible, setModalIngredienteVisible] = useState(false);
+
+  const API_URL = "http://academico3.rj.senac.br/praja"; // API
 
     return (
         <View>

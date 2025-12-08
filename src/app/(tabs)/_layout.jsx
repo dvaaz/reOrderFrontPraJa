@@ -16,6 +16,7 @@ export default function TabLayout() {
             headerShown: false,
             tabBarButton: HapticTab,
       }}>
+    
     <Tabs.Screen
         name="index"
         options={{
@@ -23,6 +24,7 @@ export default function TabLayout() {
            tabBarIcon: () => <IconSymbol size={28} name="house.fill" color={COLOR.preto} />,
         }}
     />
+    
     <Tabs.Screen
         name="ingrediente"
         options={{
@@ -30,6 +32,15 @@ export default function TabLayout() {
             tabBarIcon: () => <IconSymbol size={28} name="leaf.fill" color={COLOR.preto} />,
         }}
     />
+
+    <Tabs.Screen
+        name="fichaIncluirIngredienteScreen"
+        options={{
+            title: 'teste',
+            tabBarIcon: () => <IconSymbol size={28} name="leaf.fill" color={COLOR.preto} />,
+        }}
+    />
     </Tabs>
+    
   );
   }
