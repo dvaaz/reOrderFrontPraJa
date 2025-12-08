@@ -6,6 +6,6 @@ export enum UnidadeMedida {
 
 export const unidadeMedidaStrings: Record<UnidadeMedida, string> = {
   [UnidadeMedida.UN]: "Un",
-  [UnidadeMedida.MG]: "mg",
+  [UnidadeMedida.MG]: "g",
   [UnidadeMedida.ML]: "ml"
 };

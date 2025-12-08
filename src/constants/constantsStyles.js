@@ -6,6 +6,7 @@ export const COLOR = {
     branco: '#FFF',
     softPeach: '#f9d4d4ff',
     preto: '#1b1a17dc',
+    pretoSecundario: '#313131ff',
     warn: '#ff974dff',
     danger: '#ff0404ff',
     info: '#4287f5ff',

@@ -21,6 +21,14 @@ export interface Ficha {
   grupo?: Grupo;
   status?: number;
 }
+export interface IngredienteFicha {
+  id: number;
+  ingrediente: Ingrediente;
+  ficha: Ficha;
+  unidadeMedida: number;
+  quantidade: number;
+  status?: number;
+}
 
 export interface Estoque {
   id: number;
@@ -31,14 +39,6 @@ export interface Estoque {
   status?: number;
 }
 
-export interface IngredienteFicha {
-  id: number;
-  ingrediente: Ingrediente;
-  ficha: Ficha;
-  unidadeMedida: number;
-  quantidade: number;
-  status?: number;
-}
 
 export interface ProducaoDia {
   id: number;
