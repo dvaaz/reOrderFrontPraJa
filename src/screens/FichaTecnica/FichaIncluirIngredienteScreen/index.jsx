@@ -11,6 +11,8 @@ export default function FichaIncluirIngredienteScreen() {
   const [unidadeFicha, setUnidadeFicha] = useState("");
   const [quantidadeFicha, setQuantidadeFicha] = useState("");
   const [descricaoIngrediente, setDescricaoIngrediente] = useState("");
+  // constante de lista de ingredientes selecionados com suas quantidades e unidades
+  const [ingredienteSelecionado, setIngredienteSelecionado] = useState([]);
 
 // controle de modal
   const [modalIngredienteVisible, setModalIngredienteVisible] = useState(false);
