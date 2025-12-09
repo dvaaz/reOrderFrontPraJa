@@ -1,8 +1,11 @@
+import FichaModal from "@/components/FichaModal";
 import { GroupPlates } from "@/components/GroupPlates";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+
 export default function ServicoDia() {
+
   //mock da api
   const groups = [
     {
@@ -25,7 +28,7 @@ export default function ServicoDia() {
         { name: "Camarão na Moranga", quantity: 9 , id: 16},
         { name: "Bacalhau à Brás", quantity: 14 , id: 17},
       ],
-    }
+    },
     {
       groupName: "Massas",
       groupColor: "#FFD54F", // amarelo
@@ -54,6 +57,9 @@ export default function ServicoDia() {
     },
   ];
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFichaId, setSelectedFichaId] = useState<number | null>(null);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pratos do Dia</Text>
@@ -61,7 +67,18 @@ export default function ServicoDia() {
       {groups.map((g, idx) => (
         <GroupPlates
           onPress={() => {
-            // abrir modal
+            // Inside the ServicoDia component, before `return` add:
+
+            // Replace the $SELECTION_PLACEHOLDER$ contents with:
+            setSelectedFichaId(g.dishes[0].id);
+            setModalVisible(true);
+
+            // And after the groups.map(...) (still inside the returned JSX) render the modal:
+            <FichaModal
+              visible={modalVisible}
+              fichaId={selectedFichaId ?? undefined}
+              onClose={() => setModalVisible(false)}
+            />
           }}
           key={`${g.groupName}-${idx}`}
           groupName={g.groupName}

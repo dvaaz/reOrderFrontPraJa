@@ -17,5 +17,5 @@
     "src/app/(tabs)/ingrediente.jsx",
     "src/app/(tabs)/_layout.jsx",
     "src/app/_layout.jsx"
-, "src/components/fichaScreen/fichaScreen.jsx"  ]
+, "src/components/FichaComponent/fichaScreen.jsx"  ]
 }

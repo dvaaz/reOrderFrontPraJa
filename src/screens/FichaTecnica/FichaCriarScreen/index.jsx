@@ -97,7 +97,7 @@ export default function FichaCriarScreen() {
 
   const handleSalvar = () => {
     // Monta o payload conforme solicitado: nome, descricao, unidade (aqui não havia unidade no mock original da ficha),
-    // e grupo da ficha (grupoFicha). Ajuste conforme seu backend.
+    // e grupo da ficha (grupoFicha).
     const payload = {
       nome: nomeFicha,
       descricao: descricaoFicha,
@@ -105,7 +105,6 @@ export default function FichaCriarScreen() {
       grupo: grupoFicha
     };
 
-    // Por enquanto apenas logamos; substitua por fetch/axios para enviar ao endpoint real de criação de ficha
     console.log("Payload para criar ficha:", payload);
     Alert.alert("Ação", "Payload preparado. Verifique o console para ver os dados.");
   };
