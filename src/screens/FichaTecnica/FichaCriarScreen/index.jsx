@@ -18,6 +18,9 @@ import { styles } from "./styles";
 // SE ESTIVER NO CELULAR FÍSICO/IPHONE: Use o IP do seu PC, ex: "http://192.168.1.15:8408/api"
 const API_URL = "http://academico3.rj.senac.br/praja";
 
+export default function IngredienteCriarScreen() {
+  const router = useRouter();
+
 export default function FichaCriarScreen() {
   // Hooks de formulário
   const [nomeFicha, setNomeFicha] = useState("");
