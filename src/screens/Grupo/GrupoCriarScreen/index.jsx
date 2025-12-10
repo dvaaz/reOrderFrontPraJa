@@ -83,6 +83,7 @@ export default function GrupoCriarScreen() {
       cor: corGrupo,
       tipo: consTipoGrupo.find(u => u.id === tipoGrupo)?.cod || 0,
     };
+    console.log("Payload a ser enviado:", payload);
 
     try {
       const response = await fetch(`${API_URL}/api/grupos/criar`, {
