@@ -216,6 +216,7 @@ export default function IngredienteCriarScreen() {
           </View>
         </View>
 
+ {/* Botoes do footer */}
         <View style={styles.actions}>
           <View style={styles.actionItem}>
             <PrimaryButton

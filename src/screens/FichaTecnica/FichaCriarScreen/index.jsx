@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator, Alert, FlatList, Modal,
   Pressable, ScrollView, Text, TextInput,
-  TouchableOpacity,
   View
 } from "react-native";
 
@@ -245,28 +244,40 @@ export default function FichaCriarScreen() {
           </View>
         </View>
 
-        <View style={styles.clearButton}>
-          <TouchableOpacity
-            style={[styles.actionButton, styles.cancelButton]}
-            name="Limpar"
-            onPress={() => {
-              setNomeFicha("");
-              setDescricaoFicha(" ");
-              setGrupoFicha("");
-              setGrupoIngredientesSelecionado("");
-              setIngredienteSelecionado([]);
-            }}
-            buttonColor={COLOR.danger}
-            textColor={COLOR.preto}
-          />
-          <TouchableOpacity
-            name="Confirmar"
-            style={[styles.actionButton, styles.okButton]}
-            textColor={COLOR.branco}
-
-            onPress={handleSalvar}
-          />
-        </View>
+        <View style={styles.actions}>
+                  <View style={styles.actionItem}>
+                    <PrimaryButton
+                      name="Voltar"
+                      onPress={() => router.back()}
+                      buttonColor={COLOR.card}
+                      textColor={COLOR.preto}
+                      iconName="arrow-back"
+                      isOutlined
+                    />
+                  </View>
+                  <View style={styles.actionItem}>
+                    <PrimaryButton
+                      name="Limpar"
+                      onPress={() => {
+                        setNomeIngrediente("");
+                        setDescricaoIngrediente("");
+                        setGrupoIngrediente("");
+                      }}
+                      buttonColor={COLOR.warn}
+                      textColor={COLOR.preto}
+                      iconName="refresh"
+                    />
+                  </View>
+                  <View style={styles.actionItem}>
+                    <PrimaryButton
+                      name="Salvar"
+                      onPress={handleSalvar}
+                      buttonColor={COLOR.primary}
+                      textColor={COLOR.branco}
+                      iconName="checkmark-circle"
+                    />
+                  </View>
+                </View>
       </View>
     </ScrollView>
   );

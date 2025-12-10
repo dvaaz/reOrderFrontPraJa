@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 
-const getRandomQuantity = () => Math.floor(Math.random() * 5) + 1;
+const getRandomQuantity = () => Math.floor(Math.random() * 8) + 1;
 
 export default function ServicoDia() {
  const API_URL = "http://academico3.rj.senac.br/praja";

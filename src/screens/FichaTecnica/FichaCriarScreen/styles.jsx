@@ -183,16 +183,16 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: "flex-start",
     },
-    okButton: {
-        backgroundColor: COLOR.blue,
-    },
-      actionButton: {
+  actions: { 
+    flexDirection: "row", 
+    gap: 10,
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    marginTop: 4, 
+    marginBottom: 10,
+  },
+  actionItem: {
     flex: 1,
-    height: 48,
-    width: 80,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
   },
 
 
