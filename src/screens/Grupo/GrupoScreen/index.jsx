@@ -1,8 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  View
-} from "react-native";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { COLOR } from "@/constants/constantsStyles";
@@ -36,10 +32,10 @@ export default function Grupo() {
     // rota estática por id
     switch (categoria.id) {
       case "create":
-        router.navigate("../grupoCriarScreen");
+        router.push("/grupoCriar");
         break;
       case "search":
-        router.navigate("../grupoBuscarScreen");
+        Alert.alert("Em breve", "Tela de busca de grupos ainda não foi implementada.");
         break;
       default:
         console.warn("Rota não configurada para", categoria.id);

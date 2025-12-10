@@ -1,29 +1,25 @@
 import { Image, StyleSheet } from 'react-native';
+import { COLOR } from '@/constants/constantsStyles';
 
 const imagemFundoSrc = require('../../assets/images/praja_gemini_generated.png');
 
-// imagem 
+// Camada suave de fundo com a imagem em baixa opacidade
 export const ImagemFundo = () => {
-    
-    return (
-        <>
-        {/* Imagem de Fundo (Prato) - USANDO REQUIRE, buscar se há outra forma de referenciar fora deste index */}
-        <Image
-        source={imagemFundoSrc} // Usa o require()
-        style= {styles.backgroundImage}
-        />
-        </>
-    );
+  return (
+    <Image
+      source={imagemFundoSrc}
+      style={styles.backgroundImage}
+    />
+  );
 };
 
-const styles = StyleSheet.create ({
-    backgroundImage: {
+const styles = StyleSheet.create({
+  backgroundImage: {
     position: 'absolute',
     width: '100%',
-    height: '100%', 
+    height: '100%',
     resizeMode: 'contain',
-    opacity: 0.075,
-    backgroundColor: '#fef0e7ff'
+    opacity: 0.06,
+    backgroundColor: COLOR.softPeach,
   },
-})
-  
+});

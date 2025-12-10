@@ -1,10 +1,13 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { PrimaryButton } from "@/components/PrimaryButton";
+import { COLOR } from "@/constants/constantsStyles";
+import { ImagemFundo } from "@/utils/ImagemFundo";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -36,35 +39,27 @@ export default function IngredienteCriarScreen() {
   const [loadingGrupos, setLoadingGrupos] = useState(true);
   const [exemploHolder, setExemploHolder] = useState("");
 
-  // --- EFEITO PARA EXEMPLO DINÂMICO ---
-
-
   // --- EFEITOS ---
   useEffect(() => {
     fetchGrupos();
   }, []);
+
   useEffect(() => {
+    const trocarExemplo = () => {
+      const exemploAleatorio = exemplos[Math.floor(Math.random() * exemplos.length)];
+      setExemploHolder(`Ex: ${exemploAleatorio}`);
+    };
 
-  // --- Função que escolhe um exemplo aleatório ---
-  const trocarExemplo = () => {
-    const exemploAleatorio = exemplos[Math.floor(Math.random() * exemplos.length)];
-    setExemploHolder(`Ex: ${exemploAleatorio}`);
-  };
+    if (nomeIngrediente === "") {
+      trocarExemplo();
+    }
 
-  // --- Sempre que o usuário APAGAR O TEXTO, trocar o placeholder ---
-  if (nomeIngrediente === "") {
-    trocarExemplo();
-  }
+    const interval = setInterval(() => {
+      trocarExemplo();
+    }, 3000);
 
-  // --- Timer para trocar automaticamente a cada 2s ---
-  const interval = setInterval(() => {
-    trocarExemplo();
-  }, 3000);
-
-  // --- Cleanup do timer ---
-  return () => clearInterval(interval);
-
-}, [nomeIngrediente]);
+    return () => clearInterval(interval);
+  }, [nomeIngrediente]);
 
   const fetchGrupos = async () => {
     try {
@@ -77,12 +72,10 @@ export default function IngredienteCriarScreen() {
           cor: item.cor.startsWith('#') ? item.cor : `#${item.cor}` 
         }));
         setGrupos(gruposFormatados);
-        console.log("Grupos carregados:", gruposFormatados);
       } else {
         Alert.alert("Erro", "O servidor respondeu com erro: " + response.status);
       }
     } catch (error) {
-      console.error("ERRO FETCH:", error);
       Alert.alert("Erro de Conexão", "Verifique se o backend está rodando e se o IP está correto.");
     } finally {
       setLoadingGrupos(false);
@@ -100,7 +93,7 @@ export default function IngredienteCriarScreen() {
       nome: nomeIngrediente,
       descricao: descricaoIngrediente,
       unidadeMedida: unMedida.find(u => u.id === unidadeMedida)?.cod || 0,
-      grupo: grupoIngrediente // aqui vai o ID selecionado
+      grupo: grupoIngrediente
     };
 
     try {
@@ -117,133 +110,147 @@ export default function IngredienteCriarScreen() {
         Alert.alert("Erro ao salvar", errorText || "Ocorreu um erro no servidor.");
       }
     } catch (error) {
-      console.error("Erro no POST:", error);
       Alert.alert("Erro", "Falha ao enviar dados.");
     }
   };
 
-  // --- RENDERIZAÇÃO ---
   return (
-    <View style={styles.container}>
-      
-      {/* Campo Nome */}
-      <View style={styles.field}>
-        <Text style={styles.label}>Nome do Ingrediente:</Text>
-        <TextInput
-          value={nomeIngrediente}
-          onChangeText={setNomeIngrediente}
-          placeholder={exemploHolder}
-          style={styles.input}
-        />
-      </View>
-
-      {/* Campo Descrição */}
-      <View style={styles.field}>
-        <Text style={styles.label}>Descrição:</Text>
-        <TextInput
-          value={descricaoIngrediente}
-          onChangeText={setDescricaoIngrediente}
-          placeholder={"Informações detalhadas sobre o ingrediente, se necessário."}
-          style={[styles.input, styles.multiline]}
-          multiline
-          numberOfLines={3}
-        />
-      </View>
-
-      {/* Campo Unidade de Medida */}
-      <Text style={styles.label}>UNIDADE DE MEDIDA:</Text>
-      <View style={styles.fieldButton}>
-        <View style={styles.unitsRow}>
-          {unMedida.map((u) => {
-            const selected = unidadeMedida === u.id;
-            return (
-              <TouchableOpacity
-                key={u.id}
-                activeOpacity={0.50}
-                onPress={() => {
-                  setUnidadeMedida(u.id);
-                  console.log("Unidade selecionada:", u.id);
-                }}
-                style={[
-                  styles.unitButton,
-                  selected && styles.unitButtonSelected,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.unitText,
-                    selected && styles.unitTextSelected,
-                  ]}
-                >
-                  {u.id}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <Text style={styles.helperText}>
-          Unidade selecionada:{" "}
-          <Text style={{ fontWeight: "600" }}>
-            {unMedida.find((x) => x.id === unidadeMedida)?.nome ?? ""}
+    <View style={styles.screen}>
+      <ImagemFundo />
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Cadastrar ingrediente</Text>
+          <Text style={styles.subtitle}>
+            Layout renovado com tons de azul e campos mais leves. Preencha os detalhes abaixo.
           </Text>
-        </Text>
-      </View>
-
-      {/* Campo Grupo */}
-      <View style={styles.field}>
-        <Text style={styles.label}>Grupo do Ingrediente:</Text>
-        <View style={styles.pickerWrapper}>
-          {loadingGrupos ? (
-            <View style={styles.loadingContainer}>
-               <ActivityIndicator size="small" color="#000" />
-               <Text style={{marginLeft: 10}}>Carregando grupos...</Text>
-            </View>
-          ) : (
-            <Picker
-              selectedValue={grupoIngrediente}
-              onValueChange={(itemValue) => setGrupoIngrediente(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Selecione um grupo..." value={null} />
-              {grupos.map((grupo) => (
-                <Picker.Item 
-                  key={grupo.id} 
-                  label={grupo.nome}
-                  value={grupo.id} // aqui guardamos o ID
-                />
-              ))}
-            </Picker>
-          )}
         </View>
-        <Text style={styles.helperText}>
-          {grupos.length === 0 && !loadingGrupos ? "Nenhum grupo encontrado." : ""}
-        </Text>
-      </View>
 
-      {/* Botões */}
-      <View style={styles.clearButton}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <FontAwesome size={28} name='arrow-left' color="#333" />
-        </TouchableOpacity>
+        <View style={styles.card}>
+          <View style={styles.field}>
+            <Text style={styles.label}>Nome do ingrediente</Text>
+            <TextInput
+              value={nomeIngrediente}
+              onChangeText={setNomeIngrediente}
+              placeholder={exemploHolder}
+              style={styles.input}
+              placeholderTextColor={COLOR.gray}
+            />
+          </View>
 
-        <TouchableOpacity
-          style={[styles.actionButton, styles.cancelButton]}
-          onPress={() => {
-             setNomeIngrediente("");
-             setDescricaoIngrediente("");
-             setGrupoIngrediente("");
-          }}
-        >
-          <Text style={styles.cancelText}>Limpar</Text>
-        </TouchableOpacity>
+          <View style={styles.field}>
+            <Text style={styles.label}>Descrição</Text>
+            <TextInput
+              value={descricaoIngrediente}
+              onChangeText={setDescricaoIngrediente}
+              placeholder="Informações detalhadas sobre o ingrediente, se necessário."
+              style={[styles.input, styles.multiline]}
+              multiline
+              numberOfLines={3}
+              placeholderTextColor={COLOR.gray}
+            />
+          </View>
 
-        <TouchableOpacity
-          style={[styles.actionButton, styles.okButton]}
-          onPress={handleSalvar}
-        >
-          <Text style={styles.okText}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={styles.label}>Unidade de medida</Text>
+          <View style={styles.fieldButton}>
+            <View style={styles.unitsRow}>
+              {unMedida.map((u) => {
+                const selected = unidadeMedida === u.id;
+                return (
+                  <TouchableOpacity
+                    key={u.id}
+                    activeOpacity={0.7}
+                    onPress={() => setUnidadeMedida(u.id)}
+                    style={[
+                      styles.unitButton,
+                      selected && styles.unitButtonSelected,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.unitText,
+                        selected && styles.unitTextSelected,
+                      ]}
+                    >
+                      {u.id}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <Text style={styles.helperText}>
+              Unidade selecionada:{" "}
+              <Text style={{ fontWeight: "700" }}>
+                {unMedida.find((x) => x.id === unidadeMedida)?.nome ?? ""}
+              </Text>
+            </Text>
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>Grupo do ingrediente</Text>
+            <View style={styles.pickerWrapper}>
+              {loadingGrupos ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="small" color={COLOR.primary} />
+                  <Text style={styles.loadingText}>Carregando grupos...</Text>
+                </View>
+              ) : (
+                <Picker
+                  selectedValue={grupoIngrediente}
+                  onValueChange={(itemValue) => setGrupoIngrediente(itemValue)}
+                  style={styles.picker}
+                >
+                  <Picker.Item label="Selecione um grupo..." value={null} />
+                  {grupos.map((grupo) => (
+                    <Picker.Item 
+                      key={grupo.id} 
+                      label={grupo.nome}
+                      value={grupo.id}
+                    />
+                  ))}
+                </Picker>
+              )}
+            </View>
+            <Text style={styles.helperText}>
+              {grupos.length === 0 && !loadingGrupos ? "Nenhum grupo encontrado." : ""}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.actions}>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Voltar"
+              onPress={() => router.back()}
+              buttonColor={COLOR.card}
+              textColor={COLOR.preto}
+              iconName="arrow-back"
+              isOutlined
+            />
+          </View>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Limpar"
+              onPress={() => {
+                setNomeIngrediente("");
+                setDescricaoIngrediente("");
+                setGrupoIngrediente("");
+              }}
+              buttonColor={COLOR.warn}
+              textColor={COLOR.preto}
+              iconName="refresh"
+            />
+          </View>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Salvar"
+              onPress={handleSalvar}
+              buttonColor={COLOR.primary}
+              textColor={COLOR.branco}
+              iconName="checkmark-circle"
+            />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }

@@ -1,8 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  View
-} from "react-native";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { COLOR } from "@/constants/constantsStyles";
@@ -44,10 +40,10 @@ export default function Ficha() {
     // rota estática por id
     switch (categoria.id) {
       case "create":
-        router.navigate("../../screens/fichaTecnica/fichaCriarScreen");
+        router.push("/fichaCriar");
         break;
       case "search":
-        router.navigate("../../screens/fichaTecnica/fichaBuscarScreen");
+        Alert.alert("Em breve", "Tela de busca de ficha técnica ainda não foi implementada.");
         break;
       default:
         console.warn("Rota não configurada para", categoria.id);

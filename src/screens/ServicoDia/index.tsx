@@ -1,13 +1,15 @@
 import { GroupPlates } from "@/components/GroupPlates";
+import { COLOR } from "@/constants/constantsStyles";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function ServicoDia() {
   //mock da api
   const groups = [
     {
       groupName: "Cortes Bovinos",
-      groupColor: "#E57373", // vermelho
+      groupColor: COLOR.primary,
       dishes: [
         { name: "Fraldinha ao Pomodoro", quantity: 23 },
         { name: "Bife Oswaldo Aranha", quantity: 27 },
@@ -17,21 +19,17 @@ export default function ServicoDia() {
     },
     {
       groupName: "Massas",
-      groupColor: "#FFD54F", // amarelo
-      dishes: [
-        // aqui virao  os pratos da api
-      ],
+      groupColor: "#4EA8FF",
+      dishes: [],
     },
     {
       groupName: "Pratos Veganos",
-      groupColor: "#81C784", // verde
-      dishes: [
-        // aqui virao  os pratos da api
-      ],
+      groupColor: "#3AC5A9",
+      dishes: [],
     },
     {
       groupName: "Sobremesas",
-      groupColor: "#F48FB1", // rosa
+      groupColor: "#6D8BFF",
       dishes: [
         { name: "Pudim de Cassis", quantity: 23 },
         { name: "Mousse de Maracujá", quantity: 27 },
@@ -43,9 +41,32 @@ export default function ServicoDia() {
     },
   ];
 
+  const totalPratos = groups.reduce((acc, g) => acc + g.dishes.length, 0);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Pratos do Dia</Text>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <View style={styles.hero}>
+        <View style={styles.badge}>
+          <Ionicons name="sparkles-outline" size={16} color={COLOR.primaryDark} />
+          <Text style={styles.badgeText}>Serviço do dia</Text>
+        </View>
+        <Text style={styles.title}>Pratos em destaque</Text>
+        <Text style={styles.subtitle}>
+          Pratos disponíveis para o serviço do dia.
+        </Text>
+        <View style={styles.heroStats}>
+          <View style={styles.statCard}>
+            <Ionicons name="restaurant" size={18} color={COLOR.primaryDark} />
+            <Text style={styles.statNumber}>{totalPratos}</Text>
+            <Text style={styles.statLabel}>Pratos cadastrados</Text>
+          </View>
+          <View style={styles.statCard}>
+            <Ionicons name="time-outline" size={18} color={COLOR.primaryDark} />
+            <Text style={styles.statNumber}>Hoje</Text>
+            <Text style={styles.statLabel}>Cardápio ativo</Text>
+          </View>
+        </View>
+      </View>
 
       {groups.map((g, idx) => (
         <GroupPlates
@@ -55,37 +76,79 @@ export default function ServicoDia() {
           dishes={g.dishes}
         />
       ))}
-
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAFAFA",
-    paddingHorizontal: 16
+    backgroundColor: COLOR.background,
   },
-  title: { 
-    fontSize: 22, 
-    fontWeight: "700", 
-    marginTop: 16, 
-    marginBottom: 12, 
-    color: "#333" 
+  content: {
+    paddingHorizontal: 18,
+    paddingBottom: 24,
+    paddingTop: 10,
+    gap: 12,
   },
-  bottomNav: {
+  hero: {
+    backgroundColor: COLOR.card,
+    borderRadius: 18,
+    padding: 18,
+    gap: 10,
+    shadowColor: COLOR.primaryDark,
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: COLOR.softtGray,
+  },
+  badge: {
+    alignSelf: "flex-start",
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderColor: "#e0e0e0",
-    backgroundColor: "#fff",
+    gap: 6,
+    backgroundColor: COLOR.primarySoft,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
   },
-    navItem: { 
-      alignItems: "center" },
-    navText: { 
-      fontSize: 12, 
-      color: "#333", 
-      marginTop: 4 },
+  badgeText: {
+    color: COLOR.primaryDark,
+    fontWeight: "700",
+    fontSize: 12,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: COLOR.preto,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: COLOR.gray,
+    lineHeight: 20,
+  },
+  heroStats: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: COLOR.softPeach,
+    padding: 12,
+    borderRadius: 14,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: COLOR.background2,
+  },
+  statNumber: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: COLOR.primaryDark,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: COLOR.gray,
+  },
 });

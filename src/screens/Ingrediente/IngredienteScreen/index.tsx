@@ -2,57 +2,69 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { COLOR } from "@/constants/constantsStyles";
 import { ImagemFundo } from "@/utils/ImagemFundo";
 import { useRouter } from "expo-router";
-import {
-  FlatList,
-  StyleSheet,
-  View
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 type CategoryProps = {
   id: string;
   name: string;
   corDeFundo: string;
   corDeTexto: string;
+  icon: string;
 };
 
-const opcoes:CategoryProps[] = [
+const opcoes: CategoryProps[] = [
   {
     id: "create",
-    name: "Criar Novo Ingrediente",
-    corDeFundo: COLOR.branco,
-    corDeTexto: COLOR.preto,
+    name: "Criar novo ingrediente",
+    corDeFundo: COLOR.primary,
+    corDeTexto: COLOR.branco,
+    icon: "add-circle-outline",
   },
   {
     id: "search",
-    name: "Buscar Ingrediente",
-    corDeFundo: COLOR.branco,
+    name: "Buscar ingrediente",
+    corDeFundo: COLOR.card,
     corDeTexto: COLOR.preto,
-  }
+    icon: "search-outline",
+  },
+  {
+    id: "list",
+    name: "Listar ingredientes",
+    corDeFundo: COLOR.card,
+    corDeTexto: COLOR.preto,
+    icon: "list-outline",
+  },
 ];
-
-
 
 export default function Ingrediente() {
   const router = useRouter();
 
   const handleCategoryPress = (categoria: CategoryProps) => {
-    console.log(`Navegando para ${categoria.name}`)
-    // rota estática por id
     switch (categoria.id) {
       case "create":
-        router.navigate("../../screens/ingrediente/ingredienteCriarScreen");
+        router.push("/ingredienteCriar");
         break;
       case "search":
-        router.navigate("../../screens/ingrediente/ingredienteBuscarScreen");
+        router.push("/ingredienteBuscar");
+        break;
+      case "list":
+        router.push("/ingredienteListar");
         break;
       default:
-        console.warn("Rota não configurada para", categoria.id);
+        console.warn("Rota nao configurada para", categoria.id);
     }
   };
 
   return (
     <View style={styles.container}>
       <ImagemFundo />
+
+      <View style={styles.header}>
+        <Text style={styles.title}>Ingredientes</Text>
+        <Text style={styles.subtitle}>
+          Escolha a ação desejada. A interface agora usa um azul mais claro e botões com ícones.
+        </Text>
+      </View>
 
       <FlatList
         style={styles.content}
@@ -64,9 +76,13 @@ export default function Ingrediente() {
             onPress={() => handleCategoryPress(opcao)}
             buttonColor={opcao.corDeFundo}
             textColor={opcao.corDeTexto}
+            iconName={opcao.icon}
+            isOutlined={opcao.corDeFundo === COLOR.card}
           />
         )}
         contentContainerStyle={styles.listContainer}
+        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -75,24 +91,29 @@ export default function Ingrediente() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: COLOR.background,
-    gap: 40,
-    height: '100%',
-    width: '100%',
+    paddingHorizontal: 18,
+    paddingTop: 24,
   },
-
+  header: {
+    gap: 8,
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: COLOR.preto,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: COLOR.gray,
+    lineHeight: 20,
+  },
   content: {
     flex: 1,
-    paddingTop: "20%", // Empurra o conteúdo para baixo
-    width: '100%',
   },
-
   listContainer: {
-    alignItems: "center", // centraliza os itens da FlatList
-    gap: 20,              // espaçamento entre botões
-    paddingBottom: 20,
+    alignItems: "center",
+    paddingBottom: 24,
   },
-
-})
+});

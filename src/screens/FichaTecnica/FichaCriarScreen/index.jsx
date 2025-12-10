@@ -24,7 +24,6 @@ export default function FichaCriarScreen() {
   const [descricaoFicha, setDescricaoFicha] = useState(" ");
   const [grupoFicha, setGrupoFicha] = useState("");
 
-
   // Dados vindos da API
   const [gruposFicha, setGruposFicha] = useState([]);
   const [gruposIngredientes, setGruposIngredientes] = useState([]);
@@ -33,8 +32,7 @@ export default function FichaCriarScreen() {
   // Estados de UI
   const [grupoIngredientesSelecionado, setGrupoIngredientesSelecionado] = useState("");
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState([]);
-  const [modalDescricaoVisible, setModalDescricaoVisible] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -60,7 +58,7 @@ export default function FichaCriarScreen() {
       const dataIngredientes = await resIngredientes.json();
       const dataGruposIngredientes = await resGruposIngredientes.json();
 
-      // Normaliza cor (adiciona # se necessário) e garante tipos coerentes caso a cor de grupo seja utilizada
+      // Normaliza cor (adiciona # se necessário) e garante tipos coerentes
       const formatCor = (item) => ({
         ...item,
         cor: item.cor ? (item.cor.startsWith("#") ? item.cor : `#${item.cor}`) : undefined
@@ -72,7 +70,7 @@ export default function FichaCriarScreen() {
 
     } catch (err) {
       console.error("Erro ao carregar dados:", err);
-      Alert.alert("Erro", "Falha ao carregar dados. Verifique o a conexão.");
+      Alert.alert("Erro", "Falha ao carregar dados. Verifique o backend e a conexão.");
     } finally {
       setLoading(false);
     }
@@ -138,17 +136,16 @@ export default function FichaCriarScreen() {
             <Text style={styles.label}> Adicionar descrição à Ficha Tecnica </Text>
           </Tooltip>
 
-          {/* Abre modal para a descricao de ingredientes */}
           <Pressable
             style={styles.label}
-            onPress={() => setModalDescricaoVisible(true)}
+            onPress={() => setModalVisible(true)}
             onPressOut={() => { }}
           >
             <Plus size={FONT_SIZE.md} color={COLOR.branco} bgColor={COLOR.blue} />
-            {/* Modal para criacao do campo de descricao Ingredientes*/}
+
             <Modal
-              visible={modalDescricaoVisible}
-              onRequestClose={() => setModalDescricaoVisible(false)}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(false)}
               animationType="fade"
               transparent={true}
             >
@@ -166,13 +163,13 @@ export default function FichaCriarScreen() {
                   <View style={styles.footerPressables}>
                     <PrimaryButton
                       name="Cancelar"
-                      onPress={() => setModalDescricaoVisible(false)}
+                      onPress={() => setModalVisible(false)}
                       buttonColor={COLOR.danger}
                       textColor={COLOR.branco}
                     />
                     <PrimaryButton
                       name="Confirmar"
-                      onPress={() => setModalDescricaoVisible(false)}
+                      onPress={() => setModalVisible(false)}
                       buttonColor={COLOR.info}
                       height={40}
                     />
@@ -182,7 +179,6 @@ export default function FichaCriarScreen() {
             </Modal>
           </Pressable>
         </View>
-        {/* Fim do modal descricao Ficha */}
 
         {/* Seleção de Grupo da Ficha Técnica */}
         <View style={styles.field}>
@@ -233,14 +229,13 @@ export default function FichaCriarScreen() {
               />
             </View>
 
-            {/* Lista de Ingredientes Selecionados */}
             <Text style={styles.info}>Selecionados</Text>
             <View style={styles.box}>
               <FlatList
                 data={ingredienteSelecionado}
                 keyExtractor={(item) => String(item.id)}
                 renderItem={({ item }) => (
-                  <Pressable onPress={() => removerIngrediente(item.id)} style={styles.listItem}> {/* Remover ao clicar */}
+                  <Pressable onPress={() => removerIngrediente(item.id)} style={styles.listItem}>
                     <Text>{item.nome ?? item.name} (remover)</Text>
                   </Pressable>
                 )}

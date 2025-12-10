@@ -1,7 +1,7 @@
-
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
-import { LuBellRing } from "react-icons/lu";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { COLOR } from "@/constants/constantsStyles";
 import { DishCard } from "../DishCard";
 import { styles } from "./styles";
 
@@ -18,9 +18,8 @@ type GroupPlatesProps = {
 };
 
 export const GroupPlates = ({ groupName, groupColor, dishes }: GroupPlatesProps) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
-  // Exibe notificação se algum prato tiver quantidade >= 5
   const showNotification = dishes.some((dish) => dish.quantity <= 5);
 
   return (
@@ -32,15 +31,30 @@ export const GroupPlates = ({ groupName, groupColor, dishes }: GroupPlatesProps)
       >
         <View style={styles.headerLeft}>
           <View style={[styles.colorSquare, { backgroundColor: groupColor }]} />
-          <Text style={styles.groupTitle}>{groupName}</Text>
+          <View>
+            <Text style={styles.groupTitle}>{groupName}</Text>
+            <Text style={styles.groupSubtitle}>
+              {dishes.length} prato{dishes.length === 1 ? "" : "s"} cadastrados
+            </Text>
+          </View>
         </View>
-        {showNotification && (
-            <LuBellRing name="bell" size={20} color="#d61002ff" />
 
-        )}
+        <View style={styles.headerActions}>
+          {showNotification && (
+            <View style={styles.badge}>
+              <Ionicons name="alert-circle" size={16} color={COLOR.branco} />
+              <Text style={styles.badgeText}>Reposição</Text>
+            </View>
+          )}
+          <Ionicons
+            name={expanded ? "chevron-up" : "chevron-down"}
+            size={20}
+            color={COLOR.preto}
+          />
+        </View>
       </TouchableOpacity>
 
-      {expanded && (
+      {expanded && dishes.length > 0 ? (
         <FlatList
           horizontal
           data={dishes}
@@ -48,9 +62,15 @@ export const GroupPlates = ({ groupName, groupColor, dishes }: GroupPlatesProps)
           renderItem={({ item }) => (
             <DishCard name={item.name} quantity={item.quantity} />
           )}
-          contentContainerStyle={{ paddingVertical: 10 }}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
         />
-      )}
+      ) : expanded ? (
+        <View style={styles.emptyState}>
+          <Ionicons name="leaf-outline" size={18} color={COLOR.gray} />
+          <Text style={styles.emptyText}>Nenhum prato cadastrado ainda.</Text>
+        </View>
+      ) : null}
     </View>
   );
 };

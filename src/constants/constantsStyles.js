@@ -1,18 +1,24 @@
 
 
 export const COLOR = {
-    background: '#fff7f3ff',
-    background2: '#ffd8cc',
-    branco: '#FFF',
-    softPeach: '#f9d4d4ff',
-    preto: '#1b1a17dc',
-    warn: '#ff974dff',
-    danger: '#ff0404ff',
-    info: '#4287f5ff',
-    verde: '#28a745',
-    blue: '#2c60ffff',
-    gray: '#4b4b49ff',
-    softtGray: '#e8e8e8ff',
+    // Paleta reformulada em tons de azul
+    primary: '#2E7CF6',          // azul vibrante
+    primaryDark: '#1D4ED8',      // azul mais fechado para destaques
+    primarySoft: '#DDE9FF',      // azul clarinho para fundos
+    accent: '#7CC4FF',           // detalhes e toques de cor
+    background: '#F5F8FF',       // fundo principal
+    background2: '#E8F0FF',      // fundo secundário
+    card: '#FFFFFF',
+    branco: '#FFFFFF',
+    softPeach: '#EAF2FF',        // mantido o nome para compatibilidade
+    preto: '#0F172A',
+    warn: '#FBBF24',
+    danger: '#EF4444',
+    info: '#2563EB',
+    verde: '#22C55E',
+    blue: '#2E7CF6',
+    gray: '#475569',
+    softtGray: '#E2E8F0',
 };
 
 export const FONT_SIZE = {

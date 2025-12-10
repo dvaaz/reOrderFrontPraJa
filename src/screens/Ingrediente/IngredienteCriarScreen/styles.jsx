@@ -1,111 +1,130 @@
-import { COLOR } from '@/constants/constantsStyles';
-export const { StyleSheet } = require('react-native');
+import { StyleSheet } from "react-native";
+import { COLOR } from "@/constants/constantsStyles";
 
 export const styles = StyleSheet.create({
-  container: 
-  { flex: 1, 
-    padding: 20, 
-    backgroundColor:  COLOR.background,
-
+  screen: {
+    flex: 1,
+    backgroundColor: COLOR.background,
   },
-  field: 
-  { marginBottom: 20 
-
+  container: { 
+    flex: 1,
+  },
+  content: { 
+    padding: 18, 
+    paddingBottom: 32,
+    gap: 12,
+  },
+  header: {
+    gap: 6,
+  },
+  title: { 
+    fontSize: 24, 
+    fontWeight: "800", 
+    color: COLOR.preto,
+  },
+  subtitle: { 
+    fontSize: 14, 
+    color: COLOR.gray,
+    lineHeight: 20,
+  },
+  card: {
+    backgroundColor: COLOR.card,
+    borderRadius: 16,
+    padding: 16,
+    gap: 16,
+    borderWidth: 1,
+    borderColor: COLOR.softtGray,
+    shadowColor: COLOR.primaryDark,
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 4,
+  },
+  field: { 
+    gap: 8,
   },
   label: { 
-    fontSize: 16, 
-    fontWeight: 'bold', 
-    marginBottom: 8 
-},
+    fontSize: 14, 
+    fontWeight: "700", 
+    color: COLOR.preto,
+  },
   input: { 
     borderWidth: 1, 
-    borderColor: '#ccc', 
-    borderRadius: 8, 
-    padding: 10, 
-    fontSize: 16 
+    borderColor: COLOR.softtGray, 
+    borderRadius: 12, 
+    padding: 12, 
+    fontSize: 15,
+    backgroundColor: COLOR.branco,
+    color: COLOR.preto,
   },
   multiline: { 
-    height: 80, 
-    textAlignVertical: 'top' 
+    height: 100, 
+    textAlignVertical: "top",
   },
   unitsRow: { 
-    flexDirection: 'row',
-    gap: 10,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 10,
   },
   fieldButton: {
-    marginBottom: 20,
-    marginHorizontal: 'auto',
-    width: '80%',
+    gap: 8,
   },
   unitButton: { 
-    padding: 10, 
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderWidth: 1, 
-    borderColor: '#ccc', 
-    borderRadius: 80, 
-    minWidth: 50, 
-    alignItems: 'center',
+    borderColor: COLOR.softtGray, 
+    borderRadius: 14, 
+    minWidth: 60, 
+    alignItems: "center",
+    backgroundColor: COLOR.branco,
   },
   unitButtonSelected: { 
-    backgroundColor: '#007bff', 
-    borderColor: '#007bff' 
+    backgroundColor: COLOR.primarySoft, 
+    borderColor: COLOR.primary, 
   },
   unitText: { 
-    color: '#333' 
+    color: COLOR.preto,
+    fontWeight: "700",
   },
   unitTextSelected: { 
-    color: '#fff', 
-    fontWeight: 'bold' 
+    color: COLOR.primaryDark,
   },
   pickerWrapper: { 
     borderWidth: 1, 
-    borderColor: '#ccc', 
-    borderRadius: 8, 
-    overflow: 'hidden', 
-    justifyContent: 'center' 
+    borderColor: COLOR.softtGray, 
+    borderRadius: 12, 
+    overflow: "hidden", 
+    justifyContent: "center",
+    backgroundColor: COLOR.branco,
   },
   picker: { 
     height: 55, 
-    width: '100%' 
+    width: "100%",
   },
   loadingContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    padding: 15 
+    flexDirection: "row", 
+    alignItems: "center", 
+    padding: 15,
+    gap: 10,
+  },
+  loadingText: {
+    color: COLOR.gray,
   },
   helperText: { 
     fontSize: 12, 
-    color: COLOR.info, 
-    marginTop: 5 
+    color: COLOR.gray, 
   },
-  clearButton: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
-    marginTop: 20, 
-    marginBottom: 40 
+  actions: { 
+    flexDirection: "row", 
+    gap: 10,
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    marginTop: 4, 
+    marginBottom: 10,
   },
-  backButton: { 
-    padding: 10 
+  actionItem: {
+    flex: 1,
   },
-  actionButton: { 
-    paddingVertical: 12, 
-    paddingHorizontal: 20, 
-    borderRadius: 8 
-  },
-  cancelButton: { 
-    backgroundColor: '#ccc' 
-  },
-  cancelText: { 
-    color: '#333', 
-    fontWeight: 'bold' 
-  },
-  okButton: { 
-    backgroundColor: '#28a745' 
-  },
-  okText: { 
-    color: '#fff', 
-    fontWeight: 'bold' 
-  }
 });
