@@ -89,17 +89,38 @@ export const styles = StyleSheet.create({
     borderRadius: 8 
   },
   cancelButton: { 
-    backgroundColor: '#ccc' 
+    backgroundColor: c.softGray 
   },
   cancelText: { 
-    color: '#333', 
+    color: c.gray, 
     fontWeight: 'bold' 
   },
   okButton: { 
     backgroundColor: c.verde, 
   },
   okText: { 
-    color: '#fff', 
+    color: c.branco, 
     fontWeight: 'bold' 
-  }
+  },
+  colorGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  marginTop: 10,
+},
+
+colorBox: {
+  width: 60,
+  height: 60,
+  margin: 5,
+  borderRadius: 8,
+  borderWidth: 2,
+  borderColor: c.softGray,
+},
+
+colorBoxSelected: {
+  borderColor: c.preto, // destaque quando selecionado
+  borderWidth: 3,
+},
+
 });

@@ -21,16 +21,18 @@ export default function GrupoCriarScreen() {
     { id: "i", nome: "Ingredientes", cod: 1 },
     { id: "f", nome: "Fichas Tecnicas", cod: 2 },
   ];
-// Serão adicionados o # antes das opções de cores no picker
+  // Serão adicionados o # antes das opções de cores no picker
   const opcaoCores = [
     { id: "vermelho", nome: "Vermelho", cod: "FF0000" },
     { id: "verde", nome: "Verde", cod: "00FF00" },
     { id: "azul", nome: "Azul", cod: "0000FF" },
     { id: "amarelo", nome: "Amarelo", cod: "FFFF00" },
     { id: "laranja", nome: "Laranja", cod: "FFA500" },
-    { id: "roxo", nome: "Roxo", cod: "f509f5de" },
+    { id: "ciano", nome: "Ciano", cod: "00FFFF" },
+    { id: "rosa", nome: "Rosa", cod: "FFC0CB" },
+    { id: "magenta", nome: "Magenta", cod: "FF00FF" },
   ]
-  
+
   // --- EFEITO PARA EXEMPLO DINÂMICO ---
   const exemplos = ["Farinhas", "Temperos", "Legumes", "Carnes", "Aves", "Ovos", "Outros"];
 
@@ -39,7 +41,6 @@ export default function GrupoCriarScreen() {
   const [corGrupo, setCorGrupo] = useState("");
   const [tipoGrupo, setTipoGrupo] = useState("");
   const [exemploHolder, setExemploHolder] = useState("");
-  const [mostrarGaveteiro, setMostrarGaveteiro] = useState(false);
 
   // Descobre o objeto da cor selecionada (para mostrar o nome)
   const corSelecionada = opcaoCores.find(c => c.id === corGrupo);
@@ -48,27 +49,27 @@ export default function GrupoCriarScreen() {
   // --- EFEITOS ---
   useEffect(() => {
 
-  // --- Função que escolhe um exemplo aleatório ---
-  const trocarExemplo = () => {
-    const exemploAleatorio = exemplos[Math.floor(Math.random() * exemplos.length)];
-    setExemploHolder(`Ex: ${exemploAleatorio}`);
-  };
+    // --- Função que escolhe um exemplo aleatório ---
+    const trocarExemplo = () => {
+      const exemploAleatorio = exemplos[Math.floor(Math.random() * exemplos.length)];
+      setExemploHolder(`Ex: ${exemploAleatorio}`);
+    };
 
-  // --- Sempre que o usuário APAGAR O TEXTO, trocar o placeholder ---
-  if (nomeGrupo === "") {
-    trocarExemplo();
-  }
+    // --- Sempre que o usuário APAGAR O TEXTO, trocar o placeholder ---
+    if (nomeGrupo === "") {
+      trocarExemplo();
+    }
 
-  // --- Timer para trocar automaticamente a cada 2s ---
-  const interval = setInterval(() => {
-    trocarExemplo();
-  }, 3000);
+    // --- Timer para trocar automaticamente a cada 2s ---
+    const interval = setInterval(() => {
+      trocarExemplo();
+    }, 3000);
 
-  // --- Cleanup do timer ---
-  return () => clearInterval(interval);
+    // --- Cleanup do timer ---
+    return () => clearInterval(interval);
 
-}, [nomeGrupo]);
-    // --- Função para buscar os grupos da API ---
+  }, [nomeGrupo]);
+  // --- Função para buscar os grupos da API ---
 
   // --- FUNÇÃO DE SALVAR ---
   const handleSalvar = async () => {
@@ -108,7 +109,7 @@ export default function GrupoCriarScreen() {
       <colorBox
         size={30}
         color={opcaoCores[0]}
-        
+
       />
       {/* Campo Nome */}
       <View style={styles.field}>
@@ -156,42 +157,33 @@ export default function GrupoCriarScreen() {
 
       {/* Escolha de cores */}
       <View style={styles.field}>
-        <Text style={styles.label}>Grupo do Ingrediente:</Text>
+        <Text style={styles.label}>Cor do Grupo:</Text>
 
-{/* Falso Picker */}
-<TouchableOpacity
-  style={styles.fakePicker}
-  activeOpacity={0.8}
-  onPress={() => setMostrarGaveteiro(!mostrarGaveteiro)}
->
-  <Text style={styles.fakePickerText}>
-    {corSelecionada ? corSelecionada.nome : "Escolha uma cor"}
-  </Text>
+        {/* Grid 3x3 de cores */}
+        <View style={styles.colorGrid}>
+          {opcaoCores.map((cor) => {
+            const selected = corGrupo === cor.id;
+            return (
+              <TouchableOpacity
+                key={cor.id}
+                style={[
+                  styles.colorBox,
+                  { backgroundColor: "#" + cor.cod },
+                  selected && styles.colorBoxSelected
+                ]}
+                onPress={() => setCorGrupo(cor.cod)}
+              />
+            );
+          })}
+        </View>
 
-  {/* Quadradinho da cor selecionada */}
-  {corSelecionada && (
-    <colorBox size={20} color={"#" + corSelecionada.cod} />
-  )}
-</TouchableOpacity>
+        {/* Mostrar nome da cor selecionada (não está aparecendo) */}
+        {corSelecionada && (
+          <Text style={styles.helperText}>
+            Cor selecionada: <Text style={{ fontWeight: "600" }}>{corSelecionada.nome}</Text>
+          </Text>
+        )}
 
-{/* Gaveteiro (Dropdown) */}
-{mostrarGaveteiro && (
-  <View style={styles.gaveteiro}>
-    {opcaoCores.map((cor) => (
-      <TouchableOpacity
-        key={cor.id}
-        style={styles.itemGaveteiro}
-        onPress={() => {
-          setCorGrupo(cor.id);
-          setMostrarGaveteiro(false);
-        }}
-      >
-        <colorBox size={30} color={"#" + cor.cod} />
-        <Text style={{ marginLeft: 8 }}>{cor.nome}</Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-)}
       </View>
 
       {/* Botões */}
@@ -203,9 +195,9 @@ export default function GrupoCriarScreen() {
         <TouchableOpacity
           style={[styles.actionButton, styles.cancelButton]}
           onPress={() => {
-             setNomeGrupo("");
-             setTipoGrupo("");
-             setCorGrupo("");
+            setNomeGrupo("");
+            setTipoGrupo("");
+            setCorGrupo("");
           }}
         >
           <Text style={styles.cancelText}>Limpar</Text>
