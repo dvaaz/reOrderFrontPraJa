@@ -1,47 +1,91 @@
 import { GroupPlates } from "@/components/GroupPlates";
 import { COLOR } from "@/constants/constantsStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-export default function ServicoDia() {
-  //mock da api
-  const groups = [
-    {
-      groupName: "Cortes Bovinos",
-      groupColor: COLOR.primary,
-      dishes: [
-        { name: "Fraldinha ao Pomodoro", quantity: 23 },
-        { name: "Bife Oswaldo Aranha", quantity: 27 },
-        { name: "Filé Mignon na Manteiga", quantity: 31},
-        { name: "Ossobuco ao Molho Madeira", quantity: 19 },
-      ],
-    },
-    {
-      groupName: "Massas",
-      groupColor: "#4EA8FF",
-      dishes: [],
-    },
-    {
-      groupName: "Pratos Veganos",
-      groupColor: "#3AC5A9",
-      dishes: [],
-    },
-    {
-      groupName: "Sobremesas",
-      groupColor: "#6D8BFF",
-      dishes: [
-        { name: "Pudim de Cassis", quantity: 23 },
-        { name: "Mousse de Maracujá", quantity: 27 },
-        { name: "Torta de Abacaxi", quantity: 12},
-        { name: "Romeu e Julieta", quantity: 19 },
-        { name: "Torta de Limão", quantity: 7 },
-        { name: "Cheesecake de Frutas Vermelhas", quantity: 4 },
-      ],
-    },
-  ];
 
-  const totalPratos = groups.reduce((acc, g) => acc + g.dishes.length, 0);
+const getRandomQuantity = () => Math.floor(Math.random() * 5) + 1;
+
+export default function ServicoDia() {
+ const API_URL = "http://academico3.rj.senac.br/praja";
+ const buscarPratos = API_URL +"/api/grupos/listar/ativos";
+
+// ------- STATES -------
+ const [groups, setGroups] = useState([]);
+ const [loading, setLoading] = useState(true);
+
+// ------- EFEITOS -------
+
+ useEffect(() =>{
+  fetchDishes();
+ },[]);
+
+const fetchDishes = async () => {
+  try {
+    setLoading(true);
+    const response = await fetch(buscarPratos);
+
+    if (response.ok) {
+      const data = await response.json();
+      const gruposComPratos = data
+      .filter(grupo => grupo.pratos && grupo.pratos.length > 0)
+              .map(grupo => ({
+          ...grupo,
+          pratos: grupo.pratos.map(p => ({
+            id: p.id,
+            name: p.nome,          // converte "nome" para "name"
+            description: p.descricao,
+            quantity: getRandomQuantity() // gera quantidade aleatória
+          }))
+              }));
+      setGroups(gruposComPratos);
+    }
+
+  } catch (error) {
+    console.error("Erro ao buscar pratos:", error);
+  } finally {
+    setLoading(false);
+  }
+}
+
+  //mock da api
+  // const groups = [
+  //   {
+  //     groupName: "Cortes Bovinos",
+  //     groupColor: COLOR.primary,
+  //     dishes: [
+  //       { name: "Fraldinha ao Pomodoro", quantity: 23 },
+  //       { name: "Bife Oswaldo Aranha", quantity: 27 },
+  //       { name: "Filé Mignon na Manteiga", quantity: 31},
+  //       { name: "Ossobuco ao Molho Madeira", quantity: 19 },
+  //     ],
+  //   },
+  //   {
+  //     groupName: "Massas",
+  //     groupColor: "#4EA8FF",
+  //     dishes: [],
+  //   },
+  //   {
+  //     groupName: "Pratos Veganos",
+  //     groupColor: "#3AC5A9",
+  //     dishes: [],
+  //   },
+  //   {
+  //     groupName: "Sobremesas",
+  //     groupColor: "#6D8BFF",
+  //     dishes: [
+  //       { name: "Pudim de Cassis", quantity: 23 },
+  //       { name: "Mousse de Maracujá", quantity: 27 },
+  //       { name: "Torta de Abacaxi", quantity: 12},
+  //       { name: "Romeu e Julieta", quantity: 19 },
+  //       { name: "Torta de Limão", quantity: 7 },
+  //       { name: "Cheesecake de Frutas Vermelhas", quantity: 4 },
+  //     ],
+  //   },
+  // ];
+
+  const totalPratos = groups.reduce((acc, g) => acc + g.pratos.length, 0);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -70,10 +114,10 @@ export default function ServicoDia() {
 
       {groups.map((g, idx) => (
         <GroupPlates
-          key={`${g.groupName}-${idx}`}
-          groupName={g.groupName}
-          groupColor={g.groupColor}
-          dishes={g.dishes}
+          key={`${g.id}-${idx}`}
+          groupName={g.nome}
+          groupColor={g.cor.startsWith("#") ? g.cor : `#${g.cor}`}
+          dishes={g.pratos}
         />
       ))}
     </ScrollView>

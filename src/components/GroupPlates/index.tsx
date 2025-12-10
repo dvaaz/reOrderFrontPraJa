@@ -1,13 +1,15 @@
+import { COLOR } from "@/constants/constantsStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import { COLOR } from "@/constants/constantsStyles";
 import { DishCard } from "../DishCard";
 import { styles } from "./styles";
 
 // Tipo para prato que pode ou nao ser utilizado
 type Dish = {
-  name: string;
+  id: number;
+  nome: string;
+  descricao: string;
   quantity: number;
 };
 // Tipo para as props do componente GroupPlates

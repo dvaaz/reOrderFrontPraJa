@@ -1,16 +1,20 @@
+import { COLOR } from "@/constants/constantsStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Text, View } from "react-native";
-import { COLOR } from "@/constants/constantsStyles";
 import { styles } from "./styles";
 
 type DishCardProps = {
   name: string;
-  quantity: number;
+  quantity?: number;
+};
+// cria uma funcao para criar numeros elementos aleatorios de 1 a 5 para testar o componente
+const getRandomQuantity = () => {
+  return Math.floor(Math.random() * 5) + 1;
 };
 
 export const DishCard: React.FC<DishCardProps> = ({ name, quantity }) => {
-  const isLow = quantity <= 5;
+  const isLow = (quantity || getRandomQuantity()) <= 5;
   const badgeColor = isLow ? COLOR.danger : COLOR.primary;
   const badgeIcon = isLow ? "alert-circle" : "checkmark-circle";
 
