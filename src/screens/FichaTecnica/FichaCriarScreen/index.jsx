@@ -8,14 +8,38 @@ import {
   Pressable, ScrollView, Text, TextInput,
   View
 } from "react-native";
-
 import { Tooltip } from "react-native-paper";
 import { styles } from "./styles";
 
-// --- CONFIGURAÇÃO DA API ---
-// SE ESTIVER NO EMULADOR ANDROID: Use "http://10.0.2.2:8408/api"
-// SE ESTIVER NO CELULAR FÍSICO/IPHONE: Use o IP do seu PC, ex: "http://192.168.1.15:8408/api"
-const API_URL = "http://academico3.rj.senac.br/praja";
+// --- MOCKS ---
+// Grupo de Fichas Técnicas
+const MOCK_GRUPOS_FICHA = [
+  { id: 1, nome: "Sobremesas", cor: "#FFB6C1" },
+  { id: 2, nome: "Massas", cor: "#e3a11bff" },
+  { id: 3, nome: "Carnes", cor: "#CD5C5C" },
+  { id: 4, nome: "Bebidas", cor: "#c3ea14ff" }
+];
+
+// Grupo de Ingredientes
+const MOCK_GRUPOS_INGREDIENTES = [
+  { id: 10, nome: "Frutas", cor: "#32CD32" },
+  { id: 11, nome: "Laticínios", cor: "#87CEEB" },
+  { id: 12, nome: "Temperos", cor: "#FFA500" },
+  {id: 13, nome: "Sorvetes", cor: "#D2B48C" }
+];
+
+// Ingredientes
+const MOCK_INGREDIENTES = [
+  { id: 100, nome: "Morango", grupo: 10 },
+  { id: 101, nome: "Banana", grupo: 10 },
+  { id: 102, nome: "Leite", grupo: 11 },
+  { id: 103, nome: "Queijo", grupo: 11 },
+  { id: 104, nome: "Sal", grupo: 12 },
+  { id: 105, nome: "Pimenta", grupo: 12 },
+  { id: 106, nome: "Sorvete de Baunilha", grupo: 13 },
+  { id: 107, nome: "Sorvete de Chocolate", grupo: 13 },
+  { id: 108, nome: "Sorvete de Creme", grupo: 13 },
+];
 
 export default function FichaCriarScreen() {
   // Hooks de formulário
@@ -23,7 +47,7 @@ export default function FichaCriarScreen() {
   const [descricaoFicha, setDescricaoFicha] = useState(" ");
   const [grupoFicha, setGrupoFicha] = useState("");
 
-  // Dados vindos da API
+  // Dados mockados
   const [gruposFicha, setGruposFicha] = useState([]);
   const [gruposIngredientes, setGruposIngredientes] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
@@ -36,44 +60,12 @@ export default function FichaCriarScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchAllData();
+    // Simula carregamento de dados mockados
+    setGruposFicha(MOCK_GRUPOS_FICHA);
+    setGruposIngredientes(MOCK_GRUPOS_INGREDIENTES);
+    setIngredientes(MOCK_INGREDIENTES);
+    setLoading(false);
   }, []);
-
-  const fetchAllData = async () => {
-    setLoading(true);
-    try {
-      // Buscar os três endpoints em paralelo
-      const [resGruposFicha, resIngredientes, resGruposIngredientes] = await Promise.all([
-        fetch(`${API_URL}/grupos/fichatecnica/listar`),
-        fetch(`${API_URL}/ingrediente/listar`),
-        fetch(`${API_URL}/grupos/ingrediente/listar`)
-      ]);
-
-      if (!resGruposFicha.ok) throw new Error(`Erro grupos ficha: ${resGruposFicha.status}`);
-      if (!resIngredientes.ok) throw new Error(`Erro ingredientes: ${resIngredientes.status}`);
-      if (!resGruposIngredientes.ok) throw new Error(`Erro grupos ingredientes: ${resGruposIngredientes.status}`);
-
-      const dataGruposFicha = await resGruposFicha.json();
-      const dataIngredientes = await resIngredientes.json();
-      const dataGruposIngredientes = await resGruposIngredientes.json();
-
-      // Normaliza cor (adiciona # se necessário) e garante tipos coerentes
-      const formatCor = (item) => ({
-        ...item,
-        cor: item.cor ? (item.cor.startsWith("#") ? item.cor : `#${item.cor}`) : undefined
-      });
-
-      setGruposFicha(Array.isArray(dataGruposFicha) ? dataGruposFicha.map(formatCor) : []);
-      setIngredientes(Array.isArray(dataIngredientes) ? dataIngredientes : []);
-      setGruposIngredientes(Array.isArray(dataGruposIngredientes) ? dataGruposIngredientes.map(formatCor) : []);
-
-    } catch (err) {
-      console.error("Erro ao carregar dados:", err);
-      Alert.alert("Erro", "Falha ao carregar dados. Verifique o backend e a conexão.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Computa ingredientes disponíveis com base no grupo selecionado e exclui os já selecionados
   const ingredientesDisponiveis = useMemo(() => {
@@ -93,8 +85,6 @@ export default function FichaCriarScreen() {
   };
 
   const handleSalvar = () => {
-    // Monta o payload conforme solicitado: nome, descricao, unidade (aqui não havia unidade no mock original da ficha),
-    // e grupo da ficha (grupoFicha). Ajuste conforme seu backend.
     const payload = {
       nome: nomeFicha,
       descricao: descricaoFicha,
@@ -102,7 +92,6 @@ export default function FichaCriarScreen() {
       grupo: grupoFicha
     };
 
-    // Por enquanto apenas logamos; substitua por fetch/axios para enviar ao endpoint real de criação de ficha
     console.log("Payload para criar ficha:", payload);
     Alert.alert("Ação", "Payload preparado. Verifique o console para ver os dados.");
   };
@@ -119,6 +108,12 @@ export default function FichaCriarScreen() {
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={styles.container}>
+        <View style={styles.header}>
+                  <Text style={styles.title}>Cadastrar Ficha Tecnica de um Prato</Text>
+                  <Text style={styles.subtitle}>
+                      Preencha os detalhes abaixo.
+                  </Text>
+                </View>
         <View style={styles.field}>
           <Text style={styles.label}>Nome da Ficha Tecnica:</Text>
           <TextInput
@@ -126,7 +121,6 @@ export default function FichaCriarScreen() {
             value={nomeFicha}
             onChangeText={setNomeFicha}
             placeholder="Digite o nome da Ficha Tecnica"
-
           />
         </View>
 
@@ -138,7 +132,6 @@ export default function FichaCriarScreen() {
           <Pressable
             style={styles.label}
             onPress={() => setModalVisible(true)}
-            onPressOut={() => { }}
           >
             <Plus size={FONT_SIZE.md} color={COLOR.branco} bgColor={COLOR.blue} />
 
@@ -190,7 +183,7 @@ export default function FichaCriarScreen() {
             >
               <Picker.Item label="Escolha um grupo" value="" />
               {gruposFicha.map((g) => (
-                <Picker.Item key={String(g.id)} label={g.nome ?? g.name ?? String(g.id)} value={String(g.id)} color={g.cor} />
+                <Picker.Item key={String(g.id)} label={g.nome} value={String(g.id)} color={g.cor} />
               ))}
             </Picker>
           </View>
@@ -208,7 +201,7 @@ export default function FichaCriarScreen() {
             >
               <Picker.Item label="Grupo de Ingredientes" value="" />
               {gruposIngredientes.map((g) => (
-                <Picker.Item key={String(g.id)} label={g.nome ?? g.name ?? String(g.id)} value={String(g.id)} color={g.cor} />
+                <Picker.Item key={String(g.id)} label={g.nome} value={String(g.id)} color={g.cor} />
               ))}
             </Picker>
 
@@ -221,7 +214,7 @@ export default function FichaCriarScreen() {
                     onPress={() => adicionarIngrediente(item)}
                     style={styles.listItem}
                   >
-                    <Text>{item.nome ?? item.name}</Text>
+                    <Text>{item.nome}</Text>
                   </Pressable>
                 )}
                 ListEmptyComponent={<Text style={styles.helperText}>Nenhum ingrediente disponível.</Text>}
@@ -235,7 +228,7 @@ export default function FichaCriarScreen() {
                 keyExtractor={(item) => String(item.id)}
                 renderItem={({ item }) => (
                   <Pressable onPress={() => removerIngrediente(item.id)} style={styles.listItem}>
-                    <Text>{item.nome ?? item.name} (remover)</Text>
+                    <Text>{item.nome} (remover)</Text>
                   </Pressable>
                 )}
                 ListEmptyComponent={<Text style={styles.helperText}>Nenhum ingrediente selecionado.</Text>}
@@ -244,12 +237,12 @@ export default function FichaCriarScreen() {
           </View>
         </View>
 
-        {/* Botoes de ação */}
+              {/* Botoes de ação */}
         <View style={styles.actions}>
           <View style={styles.actionItem}>
             <PrimaryButton
               name="Voltar"
-              onPress={() => router.back()}
+              onPress={() => Alert.alert("Voltar", "Ação de voltar")}
               buttonColor={COLOR.card}
               textColor={COLOR.preto}
               iconName="arrow-back"
@@ -260,9 +253,11 @@ export default function FichaCriarScreen() {
             <PrimaryButton
               name="Limpar"
               onPress={() => {
-                setNomeIngrediente("");
-                setDescricaoIngrediente("");
-                setGrupoIngrediente("");
+                setNomeFicha("");
+                setDescricaoFicha("");
+                setGrupoFicha("");
+                setGrupoIngredientesSelecionado("");
+                setIngredienteSelecionado([]);
               }}
               buttonColor={COLOR.warn}
               textColor={COLOR.preto}

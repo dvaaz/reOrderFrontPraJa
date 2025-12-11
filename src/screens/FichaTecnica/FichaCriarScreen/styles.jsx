@@ -12,6 +12,19 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+      header: {
+    gap: 6,
+  },
+  title: { 
+    fontSize: 24, 
+    fontWeight: "800", 
+    color: COLOR.preto,
+  },
+  subtitle: { 
+    fontSize: 14, 
+    color: COLOR.gray,
+    lineHeight: 20,
+  },
 
     centeredView: {
         flex: 1,

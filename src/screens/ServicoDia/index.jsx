@@ -34,8 +34,8 @@ const fetchDishes = async () => {
           ...grupo,
           pratos: grupo.pratos.map(p => ({
             id: p.id,
-            name: p.nome,          // converte "nome" para "name"
-            description: p.descricao,
+            nome: p.nome,          // converte "nome" para "name"
+            descricao: p.descricao,
             quantity: getRandomQuantity() // gera quantidade aleatória
           }))
               }));

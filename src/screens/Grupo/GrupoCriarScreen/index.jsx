@@ -110,6 +110,12 @@ export default function GrupoCriarScreen() {
   // --- RENDERIZAÇÃO ---
   return (
     <View style={styles.container}>
+              <View style={styles.header}>
+                  <Text style={styles.title}>Cadastro de Grupo</Text>
+                  <Text style={styles.subtitle}>
+                      Com os Grupos voce facilitará a busca por Ingredientes e Fichas Técnicas.
+                  </Text>
+                </View>
       {/* Campo Nome */}
       <View style={styles.field}>
         <Text style={styles.label}>Nome do Grupo:</Text>
@@ -243,6 +249,20 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 20, backgroundColor: c.background,
     justifyContent: "center"
+  },
+        header: {
+    gap: 6,
+    marginBottom: 20
+  },
+  title: { 
+    fontSize: 24, 
+    fontWeight: "800", 
+    color: c.preto,
+  },
+  subtitle: { 
+    fontSize: 14, 
+    color: c.gray,
+    lineHeight: 20,
   },
   field:
   {

@@ -121,7 +121,7 @@ export default function IngredienteCriarScreen() {
         <View style={styles.header}>
           <Text style={styles.title}>Cadastrar ingrediente</Text>
           <Text style={styles.subtitle}>
-            Layout renovado com tons de azul e campos mais leves. Preencha os detalhes abaixo.
+              Preencha os detalhes abaixo.
           </Text>
         </View>
 
