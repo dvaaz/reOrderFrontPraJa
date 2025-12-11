@@ -244,40 +244,41 @@ export default function FichaCriarScreen() {
           </View>
         </View>
 
+        {/* Botoes de ação */}
         <View style={styles.actions}>
-                  <View style={styles.actionItem}>
-                    <PrimaryButton
-                      name="Voltar"
-                      onPress={() => router.back()}
-                      buttonColor={COLOR.card}
-                      textColor={COLOR.preto}
-                      iconName="arrow-back"
-                      isOutlined
-                    />
-                  </View>
-                  <View style={styles.actionItem}>
-                    <PrimaryButton
-                      name="Limpar"
-                      onPress={() => {
-                        setNomeIngrediente("");
-                        setDescricaoIngrediente("");
-                        setGrupoIngrediente("");
-                      }}
-                      buttonColor={COLOR.warn}
-                      textColor={COLOR.preto}
-                      iconName="refresh"
-                    />
-                  </View>
-                  <View style={styles.actionItem}>
-                    <PrimaryButton
-                      name="Salvar"
-                      onPress={handleSalvar}
-                      buttonColor={COLOR.primary}
-                      textColor={COLOR.branco}
-                      iconName="checkmark-circle"
-                    />
-                  </View>
-                </View>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Voltar"
+              onPress={() => router.back()}
+              buttonColor={COLOR.card}
+              textColor={COLOR.preto}
+              iconName="arrow-back"
+              isOutlined
+            />
+          </View>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Limpar"
+              onPress={() => {
+                setNomeIngrediente("");
+                setDescricaoIngrediente("");
+                setGrupoIngrediente("");
+              }}
+              buttonColor={COLOR.warn}
+              textColor={COLOR.preto}
+              iconName="refresh"
+            />
+          </View>
+          <View style={styles.actionItem}>
+            <PrimaryButton
+              name="Salvar"
+              onPress={handleSalvar}
+              buttonColor={COLOR.primary}
+              textColor={COLOR.branco}
+              iconName="checkmark-circle"
+            />
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

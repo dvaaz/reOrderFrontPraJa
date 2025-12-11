@@ -101,5 +101,17 @@ export const styles = StyleSheet.create({
   okText: { 
     color: '#fff', 
     fontWeight: 'bold' 
-  }
+  },
+   actions: { 
+    flexDirection: "row", 
+    gap: 10,
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    marginTop: 4, 
+    marginBottom: 10,
+  },
+  actionItem: {
+    flex: 1,
+  },
+
 });

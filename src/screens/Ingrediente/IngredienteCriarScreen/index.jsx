@@ -56,7 +56,7 @@ export default function IngredienteCriarScreen() {
 
     const interval = setInterval(() => {
       trocarExemplo();
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [nomeIngrediente]);

@@ -10,7 +10,9 @@ export default function RootLayout() {
         headerTintColor: COLOR.primaryDark,
         headerStyle: { backgroundColor: COLOR.background },
         headerTitleStyle: { fontWeight: "800", color: COLOR.preto },
-      }}
-    />
+      }}>
+    <Stack.Screen name="(tabs)" />
+    <Stack.Screen name="index" />
+    </Stack>
   );
 }
