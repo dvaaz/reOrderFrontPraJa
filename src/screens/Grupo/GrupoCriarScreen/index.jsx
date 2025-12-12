@@ -1,8 +1,9 @@
 import { CaixaDeCor } from "@/components/CaixaDeCor";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { COLOR as c } from '@/constants/constantsStyles';
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -17,6 +18,13 @@ const API_URL = "http://academico3.rj.senac.br/praja";
 
 export default function GrupoCriarScreen() {
   const router = useRouter();
+  
+  useFocusEffect( // reload automatico da pagina
+    useCallback(() => {
+    setNomeGrupo("");
+    setCorGrupo("");
+    }, [])
+  );
 
   // Constantes locais
   const consTipoGrupo = [

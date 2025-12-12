@@ -1,9 +1,9 @@
 import { GroupPlates } from "@/components/GroupPlates";
 import { COLOR } from "@/constants/constantsStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
 
 const getRandomQuantity = () => Math.floor(Math.random() * 8) + 1;
 
@@ -16,6 +16,11 @@ export default function ServicoDia() {
  const [loading, setLoading] = useState(true);
 
 // ------- EFEITOS -------
+  useFocusEffect(
+    useCallback(() => {
+      fetchDishes();
+    }, [])
+  );
 
  useEffect(() =>{
   fetchDishes();

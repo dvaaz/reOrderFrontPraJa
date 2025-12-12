@@ -2,8 +2,9 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { COLOR } from "@/constants/constantsStyles";
 import { ImagemFundo } from "@/utils/ImagemFundo";
 import { Picker } from "@react-native-picker/picker";
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -20,6 +21,15 @@ const API_URL = "http://academico3.rj.senac.br/praja";
 
 export default function IngredienteCriarScreen() {
   const router = useRouter();
+  useFocusEffect(
+    useCallback(() => {
+      fetchGrupos();
+
+      setNomeIngrediente("");
+      setDescricaoIngrediente("");
+      setGrupoIngrediente("");
+    }, [])
+  );
 
   // Constantes locais
   const unMedida = [
